@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rutina 5 Días - Prioridad Brazos</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card: #12121a;
+    --card-border: #1e1e2e;
+    --text: #e8e8ef;
+    --text-dim: #7a7a8c;
+    --text-muted: #4a4a5c;
+    --accent-red: #ff4757;
+    --accent-blue: #3742fa;
+    --accent-green: #2ed573;
+    --accent-yellow: #ffa502;
+    --accent-purple: #a855f7;
+    --accent-cyan: #18dcff;
+    --gradient-1: linear-gradient(135deg, #ff4757, #ff6b81);
+    --gradient-2: linear-gradient(135deg, #3742fa, #5352ed);
+    --gradient-3: linear-gradient(135deg, #ffa502, #ffbe76);
+    --gradient-4: linear-gradient(135deg, #2ed573, #7bed9f);
+    --gradient-5: linear-gradient(135deg, #a855f7, #c084fc);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* Header */
+  .header {
+    padding: 30px 20px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(167, 85, 247, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #e8e8ef, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  .header p {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .stat-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .stat-chip span { color: var(--text); font-weight: 600; }
+
+  /* Navigation tabs */
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 8px 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    background: var(--card);
+    color: var(--text-dim);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-tab.active {
+    color: white;
+    border-color: transparent;
+  }
+
+  .nav-tab[data-day="1"].active { background: var(--gradient-1); }
+  .nav-tab[data-day="2"].active { background: var(--gradient-2); }
+  .nav-tab[data-day="3"].active { background: var(--gradient-3); }
+  .nav-tab[data-day="4"].active { background: var(--gradient-4); }
+  .nav-tab[data-day="5"].active { background: var(--gradient-5); }
+  .nav-tab[data-day="notes"].active { background: linear-gradient(135deg, #636e72, #b2bec3); }
+
+  /* Day content */
+  .day-content {
+    display: none;
+    padding: 16px 16px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .day-content.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day-header {
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-header::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: inherit;
+    opacity: 0.12;
+    border-radius: 14px;
+  }
+
+  .day-1 .day-header { background: var(--gradient-1); }
+  .day-2 .day-header { background: var(--gradient-2); }
+  .day-3 .day-header { background: var(--gradient-3); }
+  .day-4 .day-header { background: var(--gradient-4); }
+  .day-5 .day-header { background: var(--gradient-5); }
+
+  .day-header h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+
+  .day-header .subtitle {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+    margin-top: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .day-header .time-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.2);
+    font-size: 0.7rem;
+    color: white;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Exercise cards */
+  .exercise-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .exercise-card:active {
+    border-color: var(--text-muted);
+  }
+
+  .exercise-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .day-1 .exercise-num { background: var(--gradient-1); }
+  .day-2 .exercise-num { background: var(--gradient-2); }
+  .day-3 .exercise-num { background: var(--gradient-3); }
+  .day-4 .exercise-num { background: var(--gradient-4); }
+  .day-5 .exercise-num { background: var(--gradient-5); }
+
+  .exercise-info { flex: 1; min-width: 0; }
+
+  .exercise-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .exercise-muscle {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .exercise-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .meta-tag {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+  }
+
+  .meta-tag.sets { color: var(--accent-cyan); }
+  .meta-tag.rest { color: var(--accent-yellow); }
+
+  /* Warning box */
+  .warning-box {
+    background: rgba(255, 165, 2, 0.08);
+    border: 1px solid rgba(255, 165, 2, 0.2);
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }
+
+  .warning-box .title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-yellow);
+    margin-bottom: 4px;
+  }
+
+  .warning-box p {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* Notes section */
+  .notes-section {
+    padding: 0 4px;
+  }
+
+  .note-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+
+  .note-card .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .note-card p {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .label-red { color: var(--accent-red); }
+  .label-blue { color: var(--accent-blue); }
+  .label-green { color: var(--accent-green); }
+  .label-yellow { color: var(--accent-yellow); }
+  .label-purple { color: var(--accent-purple); }
+  .label-cyan { color: var(--accent-cyan); }
+
+  /* Weights table */
+  .weights-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+  }
+
+  .weights-table th {
+    background: var(--card);
+    padding: 10px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+    text-align: left;
+  }
+
+  .weights-table td {
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    border-top: 1px solid var(--card-border);
+    background: var(--bg);
+  }
+
+  .weights-table td:last-child {
+    color: var(--accent-cyan);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+  }
+
+  .weights-table tr:nth-child(even) td {
+    background: var(--card);
+  }
+
+  /* Section divider */
+  .section-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 16px 4px 8px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>💪 RUTINA 5 DÍAS</h1>
+  <p>Prioridad Brazos + Definición</p>
+</div>
+
+<div class="stats-row">
+  <div class="stat-chip">🎯 Brazos <span>2x/sem</span></div>
+  <div class="stat-chip">🦵 Cuádriceps <span>énfasis</span></div>
+  <div class="stat-chip">🍗 Proteína <span>150-165g</span></div>
+  <div class="stat-chip">📉 Déficit <span>300-500kcal</span></div>
+  <div class="stat-chip">😴 Descanso <span>Mié + Dom</span></div>
+</div>
+
+<div class="nav-tabs">
+  <div class="nav-tab active" data-day="1" onclick="showDay(1)">LUN</div>
+  <div class="nav-tab" data-day="2" onclick="showDay(2)">MAR</div>
+  <div class="nav-tab" data-day="3" onclick="showDay(3)">JUE</div>
+  <div class="nav-tab" data-day="4" onclick="showDay(4)">VIE</div>
+  <div class="nav-tab" data-day="5" onclick="showDay(5)">SÁB</div>
+  <div class="nav-tab" data-day="notes" onclick="showDay('notes')">📋</div>
+</div>
+
+<!-- DÍA 1 -->
+<div class="day-content day-1 active" id="day-1">
+  <div class="day-header">
+    <h2>Lunes — Día 1</h2>
+    <div class="subtitle">Pecho + Bíceps</div>
+    <div class="time-badge">⏱ 60-70 min</div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">1</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Press inclinado con mancuernas (30-35°)</div>
+      <div class="exercise-muscle">Pecho superior</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">90 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">2</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Press plano con mancuernas</div>
+      <div class="exercise-muscle">Pecho medio</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 10-12</span>
+        <span class="meta-tag rest">90 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">3</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Aperturas inclinadas (30-35°)</div>
+      <div class="exercise-muscle">Pecho superior</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">4</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Cruce en polea (de arriba hacia abajo)</div>
+      <div class="exercise-muscle">Pecho inferior</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">5</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl con barra o mancuernas</div>
+      <div class="exercise-muscle">Bíceps</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">6</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl martillo con mancuernas</div>
+      <div class="exercise-muscle">Bíceps / Braquial</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">7</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl concentrado en banco</div>
+      <div class="exercise-muscle">Bíceps (pico)</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DÍA 2 -->
+<div class="day-content day-2" id="day-2">
+  <div class="day-header">
+    <h2>Martes — Día 2</h2>
+    <div class="subtitle">Espalda + Tríceps</div>
+    <div class="time-badge">⏱ 60-70 min</div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">1</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Jalón al pecho agarre amplio</div>
+      <div class="exercise-muscle">Dorsal</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">90 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">2</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Remo en polea baja agarre V</div>
+      <div class="exercise-muscle">Dorsal / Romboides</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">90 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">3</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Jalón agarre cerrado (V)</div>
+      <div class="exercise-muscle">Dorsal</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 10-12</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">4</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Remo con mancuerna a 1 brazo</div>
+      <div class="exercise-muscle">Dorsal</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 10-12</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">5</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Fondos en máquina o polea (tríceps)</div>
+      <div class="exercise-muscle">Tríceps</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">6</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Extensión tríceps en polea (cuerda)</div>
+      <div class="exercise-muscle">Tríceps lateral</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">7</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Extensión tríceps sobre cabeza (polea)</div>
+      <div class="exercise-muscle">Tríceps largo</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DÍA 3 -->
+<div class="day-content day-3" id="day-3">
+  <div class="day-header">
+    <h2>Jueves — Día 3</h2>
+    <div class="subtitle">Hombros + Antebrazos</div>
+    <div class="time-badge">⏱ 55-65 min</div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">1</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Press de hombro en máquina</div>
+      <div class="exercise-muscle">Hombro frontal</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">90 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">2</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Elevaciones laterales en máquina o mancuerna</div>
+      <div class="exercise-muscle">Hombro lateral</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">3</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Elevaciones posteriores en máquina</div>
+      <div class="exercise-muscle">Hombro posterior</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">4</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Face pull en polea</div>
+      <div class="exercise-muscle">Hombro posterior / Trapecio</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 15-20</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">5</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl de muñeca con mancuerna (palma arriba)</div>
+      <div class="exercise-muscle">Antebrazo flexor</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 15-20</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">6</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl inverso de muñeca (palma abajo)</div>
+      <div class="exercise-muscle">Antebrazo extensor</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 15-20</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">7</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Farmer walk (caminar con mancuernas pesadas)</div>
+      <div class="exercise-muscle">Antebrazo / Agarre</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 30-40 seg</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DÍA 4 -->
+<div class="day-content day-4" id="day-4">
+  <div class="day-header">
+    <h2>Viernes — Día 4</h2>
+    <div class="subtitle">Pierna Completa (Énfasis Cuádriceps)</div>
+    <div class="time-badge">⏱ 70-80 min</div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">1</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Extensión de cuádriceps (calentamiento)</div>
+      <div class="exercise-muscle">Cuádriceps — pre-activación</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">2 x 15-20 (ligero)</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">2</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Hack Squat (pies en centro, juntos)</div>
+      <div class="exercise-muscle">Cuádriceps</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">120 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">3</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Prensa 45° (pies juntos y bajos)</div>
+      <div class="exercise-muscle">Cuádriceps</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">120 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">4</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Extensión de cuádriceps (pesado)</div>
+      <div class="exercise-muscle">Cuádriceps</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">5</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Sentadilla búlgara en Smith</div>
+      <div class="exercise-muscle">Cuádriceps / Glúteo</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 10-12 c/u</span>
+        <span class="meta-tag rest">90 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">6</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Peso muerto rumano con mancuernas</div>
+      <div class="exercise-muscle">Isquiotibiales / Glúteo</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 10-12</span>
+        <span class="meta-tag rest">90 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">7</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Leg curl sentado</div>
+      <div class="exercise-muscle">Isquiotibiales</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">8</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Pantorrilla en máquina</div>
+      <div class="exercise-muscle">Gemelos</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 15-20</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <div class="title">⚠️ Nota rodilla</div>
+    <p>Pies juntos y posición baja en prensa/hack enfatizan cuádriceps. Evitar giros, lunges libres y saltos. La sentadilla búlgara en Smith es segura porque el movimiento es lineal y controlado.</p>
+  </div>
+</div>
+
+<!-- DÍA 5 -->
+<div class="day-content day-5" id="day-5">
+  <div class="day-header">
+    <h2>Sábado — Día 5</h2>
+    <div class="subtitle">Brazos Completo</div>
+    <div class="time-badge">⏱ 60-70 min</div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">1</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl con barra en polea baja</div>
+      <div class="exercise-muscle">Bíceps</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">2</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl inclinado con mancuernas (45°)</div>
+      <div class="exercise-muscle">Bíceps (cabeza larga)</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">3</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl martillo en polea (cuerda)</div>
+      <div class="exercise-muscle">Braquial / Antebrazo</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">4</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Press francés con mancuernas en banco</div>
+      <div class="exercise-muscle">Tríceps</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">4 x 10-12</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">5</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Extensión tríceps en polea (barra recta)</div>
+      <div class="exercise-muscle">Tríceps lateral</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">60 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">6</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Patada de tríceps con mancuerna</div>
+      <div class="exercise-muscle">Tríceps largo</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">7</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl de muñeca con barra (palma arriba)</div>
+      <div class="exercise-muscle">Antebrazo flexor</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 15-20</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="exercise-num">8</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Curl inverso con barra o mancuerna</div>
+      <div class="exercise-muscle">Antebrazo / Braquiorradial</div>
+      <div class="exercise-meta">
+        <span class="meta-tag sets">3 x 12-15</span>
+        <span class="meta-tag rest">45 seg</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTAS -->
+<div class="day-content" id="day-notes">
+  <div class="notes-section">
+    <div class="section-title">Puntos Clave</div>
+
+    <div class="note-card">
+      <div class="label label-red">Prioridad Brazos</div>
+      <p>Bíceps y tríceps se trabajan 2x/semana (día secundario + día dedicado). Antebrazos 2x/semana.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-green">Cuádriceps</div>
+      <p>Día de pierna con pre-activación + 4 ejercicios directos de cuádriceps para fortalecer la rodilla.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-blue">Técnica</div>
+      <p>Controla la fase excéntrica (bajar el peso en 2-3 seg). En brazos esto es clave para crecimiento.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-purple">Progresión</div>
+      <p>Cuando completes todas las reps del rango superior, sube peso la siguiente sesión.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-cyan">Proteína</div>
+      <p>150-165g diarios (1.8-2g por kg de peso). Fundamental para construcción muscular.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-yellow">Déficit Calórico</div>
+      <p>300-500 kcal bajo mantenimiento para definición sin perder músculo.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-red">Rodilla</div>
+      <p>Evitar movimientos rotacionales, lunges libres y saltos. Todo lineal y controlado.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-green">Abdomen</div>
+      <p>2-3 series de planchas (30-45 seg) al final de los días 1 y 2. Los abs se definen con la dieta.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-blue">Descanso</div>
+      <p>Dormir mínimo 7 horas. La recuperación es donde el músculo crece.</p>
+    </div>
+
+    <div class="note-card">
+      <div class="label label-purple">Cardio</div>
+      <p>Bicicleta estática 20-30 min post-entreno o en día de descanso para ayudar al déficit.</p>
+    </div>
+
+    <div class="section-title" style="margin-top: 20px;">Pesos de Referencia</div>
+
+    <table class="weights-table">
+      <thead>
+        <tr><th>Ejercicio</th><th>Peso</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Press inclinado/plano</td><td>10-14 kg c/u</td></tr>
+        <tr><td>Aperturas / Cruces</td><td>6-10 kg c/u</td></tr>
+        <tr><td>Curl bíceps</td><td>8-12 kg c/u</td></tr>
+        <tr><td>Curl martillo</td><td>8-10 kg c/u</td></tr>
+        <tr><td>Curl concentrado</td><td>6-8 kg</td></tr>
+        <tr><td>Extensión tríceps polea</td><td>15-25 kg</td></tr>
+        <tr><td>Press francés</td><td>6-10 kg c/u</td></tr>
+        <tr><td>Elevaciones laterales</td><td>6-10 kg c/u</td></tr>
+        <tr><td>Curl muñeca</td><td>4-8 kg c/u</td></tr>
+        <tr><td>Farmer walk</td><td>16-24 kg c/u</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+function showDay(day) {
+  document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  
+  const dayId = day === 'notes' ? 'day-notes' : `day-${day}`;
+  document.getElementById(dayId).classList.add('active');
+  
+  const tabSelector = day === 'notes' ? '[data-day="notes"]' : `[data-day="${day}"]`;
+  document.querySelector(tabSelector).classList.add('active');
+}
+</script>
+
+</body>
+</html>
