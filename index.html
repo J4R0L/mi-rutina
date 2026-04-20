@@ -25,6 +25,7 @@
     --gradient-3: linear-gradient(135deg, #ffa502, #ffbe76);
     --gradient-4: linear-gradient(135deg, #2ed573, #7bed9f);
     --gradient-5: linear-gradient(135deg, #a855f7, #c084fc);
+    --gradient-6: linear-gradient(135deg, #18dcff, #6a89ff);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,6 +72,12 @@
     font-weight: 300;
   }
 
+  .header .coach {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
   .stats-row {
     display: flex;
     gap: 8px;
@@ -78,6 +85,8 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
+  .stats-row::-webkit-scrollbar { display: none; }
 
   .stat-chip {
     flex-shrink: 0;
@@ -88,866 +97,871 @@
     background: var(--card);
     border: 1px solid var(--card-border);
     color: var(--text-dim);
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
-  .stat-chip span { color: var(--text); font-weight: 600; }
+  .stat-chip .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-green);
+  }
 
-  /* Navigation */
-  .nav-tabs {
+  .tabs {
     display: flex;
     gap: 6px;
-    padding: 8px 20px;
+    padding: 0 20px 16px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 100;
-    border-bottom: 1px solid var(--card-border);
   }
 
-  .nav-tab {
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
     flex-shrink: 0;
     padding: 10px 16px;
     border-radius: 12px;
     font-size: 0.78rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
     background: var(--card);
+    border: 1px solid var(--card-border);
     color: var(--text-dim);
-    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 64px;
   }
 
-  .nav-tab.active { color: white; border-color: transparent; }
-  .nav-tab[data-day="1"].active { background: var(--gradient-1); }
-  .nav-tab[data-day="2"].active { background: var(--gradient-2); }
-  .nav-tab[data-day="3"].active { background: var(--gradient-3); }
-  .nav-tab[data-day="4"].active { background: var(--gradient-4); }
-  .nav-tab[data-day="5"].active { background: var(--gradient-5); }
-  .nav-tab[data-day="notes"].active { background: linear-gradient(135deg, #636e72, #b2bec3); }
-  .nav-tab[data-day="log"].active { background: linear-gradient(135deg, #18dcff, #48dbfb); }
-
-  /* Day content */
-  .day-content {
-    display: none;
-    padding: 16px 16px;
-    animation: fadeIn 0.3s ease;
+  .tab .tab-day {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  .day-content.active { display: block; }
+  .tab .tab-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+  .tab.active {
+    color: white;
+    border-color: transparent;
+  }
+
+  .tab.active.push { background: var(--gradient-1); }
+  .tab.active.pull { background: var(--gradient-2); }
+  .tab.active.arms { background: var(--gradient-3); }
+  .tab.active.chest-back { background: var(--gradient-5); }
+  .tab.active.log { background: var(--gradient-4); }
+
+  .tab.rest {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .content {
+    padding: 0 20px;
   }
 
   .day-header {
-    padding: 16px;
-    border-radius: 14px;
-    margin-bottom: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .day-1 .day-header { background: var(--gradient-1); }
-  .day-2 .day-header { background: var(--gradient-2); }
-  .day-3 .day-header { background: var(--gradient-3); }
-  .day-4 .day-header { background: var(--gradient-4); }
-  .day-5 .day-header { background: var(--gradient-5); }
-
-  .day-header h2 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: white;
-  }
-
-  .day-header .subtitle {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.85);
-    font-weight: 400;
-    margin-top: 2px;
-  }
-
-  .day-header-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    justify-content: space-between;
+    margin-bottom: 16px;
   }
 
-  .time-badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.2);
-    font-size: 0.7rem;
-    color: white;
-    font-weight: 500;
+  .day-title {
+    font-size: 1.3rem;
+    font-weight: 700;
   }
 
-  .progress-text {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.8);
-    font-weight: 500;
+  .day-count {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: var(--card);
+    padding: 4px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
   }
 
-  /* Exercise cards */
+  .warmup-banner {
+    background: linear-gradient(135deg, rgba(255, 165, 2, 0.15), rgba(255, 190, 118, 0.08));
+    border: 1px solid rgba(255, 165, 2, 0.3);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.78rem;
+    color: #ffc878;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .warmup-banner .icon { font-size: 1.1rem; }
+
+  .knee-warning {
+    background: linear-gradient(135deg, rgba(255, 71, 87, 0.12), rgba(255, 107, 129, 0.06));
+    border: 1px solid rgba(255, 71, 87, 0.25);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.76rem;
+    color: #ff8a93;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+
   .exercise-card {
     background: var(--card);
     border: 1px solid var(--card-border);
-    border-radius: 12px;
-    margin-bottom: 8px;
-    overflow: hidden;
-    transition: all 0.3s;
-  }
-
-  .exercise-card.completed {
-    opacity: 0.5;
-    border-color: var(--accent-green);
-  }
-
-  .exercise-card.completed .exercise-name {
-    text-decoration: line-through;
-    color: var(--text-dim);
-  }
-
-  .exercise-main {
+    border-radius: 16px;
     padding: 14px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
+    margin-bottom: 10px;
+    transition: all 0.2s;
   }
 
-  .exercise-num {
+  .exercise-card.done {
+    opacity: 0.5;
+    background: rgba(46, 213, 115, 0.05);
+    border-color: rgba(46, 213, 115, 0.2);
+  }
+
+  .exercise-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .check-btn {
     width: 28px;
     height: 28px;
     border-radius: 8px;
+    border: 2px solid var(--card-border);
+    background: transparent;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: white;
+    transition: all 0.2s;
     flex-shrink: 0;
-    font-family: 'JetBrains Mono', monospace;
   }
 
-  .exercise-card.completed .exercise-num {
-    background: var(--accent-green) !important;
+  .check-btn.checked {
+    background: var(--accent-green);
+    border-color: var(--accent-green);
   }
 
-  .exercise-card.completed .exercise-num::after {
+  .check-btn.checked::after {
     content: '✓';
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
   }
 
-  .exercise-card.completed .exercise-num span { display: none; }
-
-  .day-1 .exercise-num { background: var(--gradient-1); }
-  .day-2 .exercise-num { background: var(--gradient-2); }
-  .day-3 .exercise-num { background: var(--gradient-3); }
-  .day-4 .exercise-num { background: var(--gradient-4); }
-  .day-5 .exercise-num { background: var(--gradient-5); }
-
-  .exercise-info { flex: 1; min-width: 0; }
+  .exercise-info {
+    flex: 1;
+    min-width: 0;
+  }
 
   .exercise-name {
-    font-size: 0.85rem;
+    font-size: 0.92rem;
     font-weight: 600;
-    color: var(--text);
-    line-height: 1.3;
-  }
-
-  .exercise-muscle {
-    font-size: 0.72rem;
-    color: var(--text-dim);
-    margin-top: 2px;
+    margin-bottom: 3px;
+    line-height: 1.2;
   }
 
   .exercise-meta {
+    font-size: 0.72rem;
+    color: var(--text-dim);
     display: flex;
+    align-items: center;
     gap: 8px;
-    margin-top: 8px;
     flex-wrap: wrap;
   }
 
   .meta-tag {
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 0.68rem;
-    font-weight: 500;
     font-family: 'JetBrains Mono', monospace;
-    background: rgba(255,255,255,0.05);
-    color: var(--text-dim);
+    padding: 2px 8px;
+    background: rgba(167, 85, 247, 0.15);
+    color: var(--accent-purple);
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 500;
   }
 
-  .meta-tag.sets { color: var(--accent-cyan); }
-  .meta-tag.rest { color: var(--accent-yellow); }
+  .meta-tag.muscle { background: rgba(55, 66, 250, 0.15); color: #7286ff; }
+  .meta-tag.rest { background: rgba(24, 220, 255, 0.15); color: var(--accent-cyan); }
 
-  /* Action buttons row */
   .exercise-actions {
-    display: flex;
-    border-top: 1px solid var(--card-border);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
   }
 
   .action-btn {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-    font-size: 0.7rem;
-    font-weight: 500;
+    padding: 8px 6px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background: var(--card-hover);
     color: var(--text-dim);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-    border: none;
-    background: transparent;
-    font-family: 'Outfit', sans-serif;
-  }
-
-  .action-btn:active {
-    background: rgba(255,255,255,0.05);
-  }
-
-  .action-btn + .action-btn {
-    border-left: 1px solid var(--card-border);
-  }
-
-  .action-btn .icon { font-size: 1rem; display: block; margin-bottom: 2px; }
-
-  .action-btn.video-btn:active { color: var(--accent-red); }
-  .action-btn.timer-btn:active { color: var(--accent-yellow); }
-  .action-btn.weight-btn:active { color: var(--accent-cyan); }
-  .action-btn.check-btn:active { color: var(--accent-green); }
-
-  /* Timer Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 1000;
+    display: flex;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.2s ease;
+    gap: 4px;
+  }
+
+  .action-btn:active { transform: scale(0.97); }
+
+  .action-btn.video { color: #ff6b81; border-color: rgba(255, 71, 87, 0.3); }
+  .action-btn.timer { color: var(--accent-cyan); border-color: rgba(24, 220, 255, 0.3); }
+  .action-btn.weight { color: var(--accent-yellow); border-color: rgba(255, 165, 2, 0.3); }
+
+  .note-card {
+    background: linear-gradient(135deg, rgba(167, 85, 247, 0.1), rgba(192, 132, 252, 0.04));
+    border: 1px solid rgba(167, 85, 247, 0.25);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 0.78rem;
+    color: #c9a7f2;
+    line-height: 1.5;
+  }
+
+  .note-card strong { color: #d4b8f5; }
+
+  /* Log Tab */
+  .log-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+
+  .log-empty .icon { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+  .log-entry {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .log-date {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .log-exercise {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 0.82rem;
+  }
+
+  .log-exercise:last-child { border-bottom: none; }
+
+  .log-weight {
+    color: var(--accent-yellow);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+
+  .clear-log-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 14px;
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.3);
+    color: var(--accent-red);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* Modals */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
   }
 
   .modal-overlay.active { display: flex; }
 
-  .timer-modal {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    width: 85%;
-    max-width: 320px;
-  }
-
-  .timer-label {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .timer-display {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 4rem;
-    font-weight: 600;
-    color: var(--text);
-    margin: 10px 0;
-    line-height: 1;
-  }
-
-  .timer-display.warning { color: var(--accent-yellow); }
-  .timer-display.done { color: var(--accent-green); }
-
-  .timer-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  .timer-btn-action {
-    flex: 1;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    font-family: 'Outfit', sans-serif;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .timer-btn-start {
-    background: var(--accent-green);
-    color: #000;
-  }
-
-  .timer-btn-stop {
-    background: var(--accent-red);
-    color: white;
-  }
-
-  .timer-btn-close {
-    background: rgba(255,255,255,0.1);
-    color: var(--text);
-  }
-
-  .timer-presets {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 15px;
-  }
-
-  .timer-preset {
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 0.72rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--card-border);
-    background: transparent;
-    color: var(--text-dim);
-    font-family: 'JetBrains Mono', monospace;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .timer-preset.active {
-    border-color: var(--accent-yellow);
-    color: var(--accent-yellow);
-  }
-
-  /* Weight Modal */
-  .weight-modal {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 20px;
-    padding: 24px;
-    width: 85%;
-    max-width: 320px;
-  }
-
-  .weight-modal h3 {
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .weight-modal .exercise-label {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    margin-bottom: 16px;
-  }
-
-  .weight-input-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-
-  .weight-input-wrap {
-    flex: 1;
-  }
-
-  .weight-input-wrap label {
-    display: block;
-    font-size: 0.68rem;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .weight-input {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid var(--card-border);
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.1rem;
-    font-weight: 500;
-    text-align: center;
-    outline: none;
-    -webkit-appearance: none;
-  }
-
-  .weight-input:focus {
-    border-color: var(--accent-cyan);
-  }
-
-  .weight-history {
-    margin-top: 16px;
-    max-height: 150px;
-    overflow-y: auto;
-  }
-
-  .weight-history-title {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-  }
-
-  .weight-entry {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--card-border);
-    font-size: 0.78rem;
-  }
-
-  .weight-entry .date { color: var(--text-dim); }
-  .weight-entry .value { color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; }
-
-  .weight-entry .trend-up { color: var(--accent-green); }
-  .weight-entry .trend-down { color: var(--accent-red); }
-
-  .weight-save-btn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    background: var(--accent-cyan);
-    color: #000;
-    font-family: 'Outfit', sans-serif;
-    margin-top: 12px;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .weight-close-btn {
-    width: 100%;
-    padding: 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    background: rgba(255,255,255,0.1);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    margin-top: 8px;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Video Modal */
-  .video-modal {
+  .modal {
     background: var(--card);
     border: 1px solid var(--card-border);
     border-radius: 20px;
     padding: 20px;
-    width: 92%;
+    width: 100%;
     max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
-  .video-modal h3 {
-    font-size: 0.9rem;
+  .modal-title {
+    font-size: 1rem;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    text-align: center;
   }
 
+  /* Timer Modal */
+  .timer-display {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #18dcff, #6a89ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 20px 0;
+    line-height: 1;
+  }
+
+  .timer-presets {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .preset-btn {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background: var(--card-hover);
+    color: var(--text-dim);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .preset-btn.active {
+    background: var(--gradient-6);
+    color: white;
+    border-color: transparent;
+  }
+
+  .timer-controls {
+    display: flex;
+    gap: 8px;
+  }
+
+  .timer-controls button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--gradient-6);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: var(--card-hover);
+    color: var(--text);
+    border: 1px solid var(--card-border) !important;
+  }
+
+  /* Weight Modal */
+  .weight-input {
+    width: 100%;
+    padding: 14px;
+    background: var(--bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .weight-input:focus {
+    outline: none;
+    border-color: var(--accent-yellow);
+  }
+
+  .weight-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* Video Modal */
   .video-container {
     position: relative;
-    width: 100%;
     padding-bottom: 56.25%;
-    border-radius: 12px;
+    height: 0;
     overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 14px;
     background: #000;
   }
 
   .video-container iframe {
     position: absolute;
     top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+    width: 100%; height: 100%;
+    border: 0;
   }
 
-  .video-close-btn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    background: rgba(255,255,255,0.1);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    margin-top: 12px;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Warning box */
-  .warning-box {
-    background: rgba(255, 165, 2, 0.08);
-    border: 1px solid rgba(255, 165, 2, 0.2);
-    border-radius: 12px;
-    padding: 14px;
-    margin-top: 10px;
-    margin-bottom: 8px;
-  }
-
-  .warning-box .title {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--accent-yellow);
-    margin-bottom: 4px;
-  }
-
-  .warning-box p {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  /* Reset day button */
-  .reset-btn {
-    display: block;
-    margin: 16px auto 0;
-    padding: 8px 20px;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--card-border);
-    background: transparent;
-    color: var(--text-muted);
-    font-family: 'Outfit', sans-serif;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .reset-btn:active {
-    border-color: var(--accent-red);
-    color: var(--accent-red);
-  }
-
-  /* Notes section */
-  .notes-section { padding: 0 4px; }
-
-  .note-card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-  }
-
-  .note-card .label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-  }
-
-  .note-card p {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  .label-red { color: var(--accent-red); }
-  .label-blue { color: var(--accent-blue); }
-  .label-green { color: var(--accent-green); }
-  .label-yellow { color: var(--accent-yellow); }
-  .label-purple { color: var(--accent-purple); }
-  .label-cyan { color: var(--accent-cyan); }
-
-  /* Weights reference table */
-  .section-title {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    padding: 16px 4px 8px;
-  }
-
-  .weights-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 10px;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--card-border);
-  }
-
-  .weights-table th {
-    background: var(--card);
-    padding: 10px 12px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-dim);
-    text-align: left;
-  }
-
-  .weights-table td {
-    padding: 10px 12px;
-    font-size: 0.78rem;
-    border-top: 1px solid var(--card-border);
-    background: var(--bg);
-  }
-
-  .weights-table td:last-child {
-    color: var(--accent-cyan);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-  }
-
-  .weights-table tr:nth-child(even) td { background: var(--card); }
-
-  /* Log section */
-  .log-section { padding: 0 4px; }
-
-  .log-card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-  }
-
-  .log-card .date-header {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--accent-cyan);
-    margin-bottom: 8px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .log-exercise {
+  .video-links {
     display: flex;
-    justify-content: space-between;
-    padding: 4px 0;
-    font-size: 0.78rem;
+    gap: 8px;
+    margin-bottom: 10px;
   }
 
-  .log-exercise .name { color: var(--text-dim); }
-  .log-exercise .weight { color: var(--text); font-family: 'JetBrains Mono', monospace; }
-
-  .log-empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-  }
-
-  .log-empty .icon { font-size: 2rem; margin-bottom: 10px; }
-
-  .clear-log-btn {
-    display: block;
-    margin: 16px auto 0;
-    padding: 8px 20px;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    cursor: pointer;
+  .video-link {
+    flex: 1;
+    padding: 10px;
+    background: var(--card-hover);
     border: 1px solid var(--card-border);
-    background: transparent;
-    color: var(--text-muted);
-    font-family: 'Outfit', sans-serif;
-    -webkit-tap-highlight-color: transparent;
+    border-radius: 10px;
+    color: var(--text);
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.76rem;
+    font-weight: 500;
   }
 
-  ::-webkit-scrollbar { display: none; }
+  .video-link.shorts {
+    background: rgba(255, 71, 87, 0.12);
+    border-color: rgba(255, 71, 87, 0.3);
+    color: #ff8a93;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+
+  .timer-active {
+    animation: pulse 1s ease-in-out infinite;
+  }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>💪 RUTINA 5 DÍAS</h1>
-  <p>Prioridad Brazos + Definición</p>
+  <h1>💪 Mi Rutina</h1>
+  <p>4 días · Push · Pull · Brazos · Pecho-Espalda</p>
+  <p class="coach">Coach: Nicolás Y. Leguizamón</p>
 </div>
 
-<div class="stats-row">
-  <div class="stat-chip">🎯 Brazos <span>2x/sem</span></div>
-  <div class="stat-chip">🦵 Cuádriceps <span>énfasis</span></div>
-  <div class="stat-chip">🍗 Proteína <span>150-165g</span></div>
-  <div class="stat-chip">📉 Déficit <span>300-500kcal</span></div>
-  <div class="stat-chip">😴 Descanso <span>Mié + Dom</span></div>
-</div>
+<div class="stats-row" id="statsRow"></div>
 
-<div class="nav-tabs">
-  <div class="nav-tab active" data-day="1" onclick="showDay(1)">LUN</div>
-  <div class="nav-tab" data-day="2" onclick="showDay(2)">MAR</div>
-  <div class="nav-tab" data-day="3" onclick="showDay(3)">JUE</div>
-  <div class="nav-tab" data-day="4" onclick="showDay(4)">VIE</div>
-  <div class="nav-tab" data-day="5" onclick="showDay(5)">SÁB</div>
-  <div class="nav-tab" data-day="notes" onclick="showDay('notes')">📋</div>
-  <div class="nav-tab" data-day="log" onclick="showDay('log')">📊</div>
-</div>
+<div class="tabs" id="tabs"></div>
 
-<!-- Modal overlays -->
+<div class="content" id="content"></div>
+
+<!-- Timer Modal -->
 <div class="modal-overlay" id="timerModal">
-  <div class="timer-modal">
-    <div class="timer-label" id="timerLabel">Descanso</div>
+  <div class="modal">
+    <div class="modal-title">⏱️ Descanso</div>
     <div class="timer-display" id="timerDisplay">01:30</div>
     <div class="timer-presets">
-      <button class="timer-preset" onclick="setTimer(45)">45s</button>
-      <button class="timer-preset" onclick="setTimer(60)">60s</button>
-      <button class="timer-preset active" onclick="setTimer(90)">90s</button>
-      <button class="timer-preset" onclick="setTimer(120)">120s</button>
+      <button class="preset-btn" data-seconds="60" onclick="setPreset(60)">1:00</button>
+      <button class="preset-btn active" data-seconds="90" onclick="setPreset(90)">1:30</button>
+      <button class="preset-btn" data-seconds="120" onclick="setPreset(120)">2:00</button>
+      <button class="preset-btn" data-seconds="180" onclick="setPreset(180)">3:00</button>
     </div>
-    <div class="timer-buttons">
-      <button class="timer-btn-action timer-btn-close" onclick="closeTimer()">Cerrar</button>
-      <button class="timer-btn-action timer-btn-start" id="timerStartBtn" onclick="toggleTimer()">Iniciar</button>
+    <div class="timer-controls">
+      <button class="btn-primary" id="startBtn" onclick="toggleTimer()">Iniciar</button>
+      <button class="btn-secondary" onclick="closeTimer()">Cerrar</button>
     </div>
   </div>
 </div>
 
+<!-- Weight Modal -->
 <div class="modal-overlay" id="weightModal">
-  <div class="weight-modal">
-    <h3>Registrar Peso</h3>
-    <div class="exercise-label" id="weightExerciseLabel">—</div>
-    <div class="weight-input-group">
-      <div class="weight-input-wrap">
-        <label>Peso (kg)</label>
-        <input type="number" class="weight-input" id="weightInput" placeholder="0" inputmode="decimal" step="0.5">
-      </div>
-      <div class="weight-input-wrap">
-        <label>Reps</label>
-        <input type="number" class="weight-input" id="repsInput" placeholder="0" inputmode="numeric">
-      </div>
+  <div class="modal">
+    <div class="modal-title" id="weightModalTitle">💪 Registrar peso</div>
+    <label class="weight-label">Peso (kg)</label>
+    <input type="number" class="weight-input" id="weightInput" placeholder="0" step="0.5">
+    <label class="weight-label">Repeticiones</label>
+    <input type="number" class="weight-input" id="repsInput" placeholder="0">
+    <div class="timer-controls">
+      <button class="btn-primary" onclick="saveWeight()">Guardar</button>
+      <button class="btn-secondary" onclick="closeWeight()">Cancelar</button>
     </div>
-    <div class="weight-history" id="weightHistory"></div>
-    <button class="weight-save-btn" onclick="saveWeight()">💾 Guardar</button>
-    <button class="weight-close-btn" onclick="closeWeight()">Cerrar</button>
   </div>
 </div>
 
+<!-- Video Modal -->
 <div class="modal-overlay" id="videoModal">
-  <div class="video-modal">
-    <h3 id="videoTitle">—</h3>
+  <div class="modal">
+    <div class="modal-title" id="videoTitle">Video</div>
     <div class="video-container">
-      <iframe id="videoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe id="videoFrame" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-    <div class="video-alt-links" id="videoAltLinks" style="display:flex;gap:8px;margin-top:10px;">
-      <a id="videoShortLink" href="#" target="_blank" style="flex:1;padding:10px;border-radius:10px;background:rgba(255,71,87,0.15);color:var(--accent-red);text-align:center;text-decoration:none;font-size:0.78rem;font-weight:600;">🔍 Buscar Shorts</a>
-      <a id="videoFullLink" href="#" target="_blank" style="flex:1;padding:10px;border-radius:10px;background:rgba(24,220,255,0.15);color:var(--accent-cyan);text-align:center;text-decoration:none;font-size:0.78rem;font-weight:600;">📺 Video completo</a>
+    <div class="video-links">
+      <a class="video-link shorts" id="videoShortLink" target="_blank">🔍 Buscar Shorts</a>
+      <a class="video-link" id="videoFullLink" target="_blank">📺 Video completo</a>
     </div>
-    <button class="video-close-btn" onclick="closeVideo()">Cerrar</button>
+    <div class="timer-controls">
+      <button class="btn-secondary" style="width:100%" onclick="closeVideo()">Cerrar</button>
+    </div>
   </div>
 </div>
-
-<div id="app"></div>
 
 <script>
 // ==================== DATA ====================
 const exercises = {
-  1: {
-    title: "Lunes — Día 1",
-    subtitle: "Pierna (Énfasis Cuádriceps)",
-    time: "70-80 min",
-    warning: "Pies juntos y posición baja en prensa/hack enfatizan cuádriceps. Evitar giros, lunges libres y saltos. La búlgara en Smith es segura porque es lineal.",
+  'lunes': {
+    name: 'Push',
+    subtitle: 'Empuje · Pecho · Hombro · Tríceps',
+    color: 'push',
+    day: 'LUN',
     items: [
-      { name: "Extensión de cuádriceps (calentamiento)", muscle: "Cuádriceps — pre-activación", sets: "2 x 15-20", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/YyvSfVjQeL0", search: "extensión cuádriceps máquina" },
-      { name: "Hack Squat (pies en centro, juntos)", muscle: "Cuádriceps", sets: "4 x 10-12", rest: "120 seg", restSec: 120, video: "https://www.youtube.com/embed/0tn5K9NlCfo", search: "hack squat cuádriceps técnica" },
-      { name: "Prensa 45° (pies juntos y bajos)", muscle: "Cuádriceps", sets: "4 x 10-12", rest: "120 seg", restSec: 120, video: "https://www.youtube.com/embed/IZxyjW7MPJQ", search: "prensa 45 pierna cuádriceps" },
-      { name: "Extensión de cuádriceps (pesado)", muscle: "Cuádriceps", sets: "4 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/YyvSfVjQeL0", search: "extensión cuádriceps máquina" },
-      { name: "Sentadilla búlgara en Smith", muscle: "Cuádriceps / Glúteo", sets: "3 x 10-12 c/u", rest: "90 seg", restSec: 90, video: "https://www.youtube.com/embed/2C-uNgKwPLE", search: "sentadilla búlgara Smith" },
-      { name: "Peso muerto rumano con mancuernas", muscle: "Isquiotibiales / Glúteo", sets: "3 x 10-12", rest: "90 seg", restSec: 90, video: "https://www.youtube.com/embed/jEy_czb3RKA", search: "peso muerto rumano mancuernas" },
-      { name: "Leg curl sentado", muscle: "Isquiotibiales", sets: "3 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/1Tq3QdYUuHs", search: "leg curl sentado" },
-      { name: "Pantorrilla en máquina", muscle: "Gemelos", sets: "4 x 15-20", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/gwLzBJYoWlI", search: "pantorrilla máquina gemelos" },
+      {
+        name: 'Press inclinado con mancuernas',
+        sets: '2 x fallo',
+        muscle: 'Pecho superior',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/8iPEnn-ltC8',
+        search: 'press inclinado mancuernas técnica'
+      },
+      {
+        name: 'Press plano en máquina',
+        sets: '1 x fallo',
+        muscle: 'Pecho medio',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/xUm0BiZCWlQ',
+        search: 'press plano máquina técnica'
+      },
+      {
+        name: 'Pec Fly (Peck Deck)',
+        sets: '2 x fallo',
+        muscle: 'Pecho',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/Z57CtFmRMxA',
+        search: 'pec deck fly máquina técnica'
+      },
+      {
+        name: 'Extensión de tríceps con barra en polea',
+        sets: '2 x fallo',
+        muscle: 'Tríceps',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/2-LAMcpzODU',
+        search: 'extensión triceps polea barra técnica'
+      },
+      {
+        name: 'Extensión de tríceps sobre la cabeza en polea con cuerda',
+        sets: '2 x fallo',
+        muscle: 'Tríceps (cabeza larga)',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/_gsUck-7M9I',
+        search: 'overhead triceps extension rope cable'
+      },
+      {
+        name: 'Press militar en máquina',
+        sets: '1 x fallo',
+        muscle: 'Hombro',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/Wqq43dKW1TU',
+        search: 'press militar máquina técnica'
+      },
+      {
+        name: 'Elevaciones laterales en máquina',
+        sets: '3 x fallo',
+        muscle: 'Deltoides lateral',
+        rest: '45s',
+        video: 'https://www.youtube.com/embed/VcKaxpHeQHg',
+        search: 'lateral raise machine technogym técnica'
+      },
+      {
+        name: 'Crunch abdominal en máquina',
+        sets: '2 x fallo',
+        muscle: 'Abdomen',
+        rest: '45s',
+        video: 'https://www.youtube.com/embed/r3arb3k-qCc',
+        search: 'abdominal crunch machine técnica'
+      },
+      {
+        name: 'Caminadora inclinada',
+        sets: '25 min a 5 km/h',
+        muscle: 'Cardio',
+        rest: '-',
+        video: 'https://www.youtube.com/embed/8Lh-mdL2ggY',
+        search: 'caminadora inclinada cardio beneficios'
+      }
     ]
   },
-  2: {
-    title: "Martes — Día 2",
-    subtitle: "Pecho + Bíceps",
-    time: "60-70 min",
+  'miercoles': {
+    name: 'Pull',
+    subtitle: 'Jalón · Espalda · Bíceps',
+    color: 'pull',
+    day: 'MIÉ',
     items: [
-      { name: "Press inclinado con mancuernas (30-35°)", muscle: "Pecho superior", sets: "4 x 10-12", rest: "90 seg", restSec: 90, video: "https://www.youtube.com/embed/8iPEnn-ltC8", search: "press inclinado mancuernas técnica" },
-      { name: "Press plano con mancuernas", muscle: "Pecho medio", sets: "3 x 10-12", rest: "90 seg", restSec: 90, video: "https://www.youtube.com/embed/VmB1G1K7v94", search: "press plano mancuernas técnica" },
-      { name: "Aperturas inclinadas (30-35°)", muscle: "Pecho superior", sets: "3 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/eozdVDA78K0", search: "aperturas inclinadas mancuernas" },
-      { name: "Aperturas planas con mancuernas", muscle: "Pecho medio / inferior", sets: "3 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/eozdVDA78K0", search: "aperturas planas mancuernas pecho" },
-      { name: "Curl con barra o mancuernas", muscle: "Bíceps", sets: "4 x 10-12", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/ykJmrZ5v0Oo", search: "curl bíceps barra técnica" },
-      { name: "Curl martillo con mancuernas", muscle: "Bíceps / Braquial", sets: "3 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/zC3nLlEvin4", search: "curl martillo mancuernas" },
-      { name: "Curl concentrado en banco", muscle: "Bíceps (pico)", sets: "3 x 12-15", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/Jvj2wV0vOYU", search: "curl concentrado bíceps" },
+      {
+        name: 'Remo en máquina',
+        sets: '2 x fallo',
+        muscle: 'Espalda media',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/GZbfZ033f74',
+        search: 'remo máquina técnica espalda'
+      },
+      {
+        name: 'Remo con pecho apoyado en banco (mancuernas)',
+        sets: '2 x fallo',
+        muscle: 'Espalda alta',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/Fy1wIWwlwjo',
+        search: 'remo pecho apoyado banco mancuernas'
+      },
+      {
+        name: 'Jalón al pecho',
+        sets: '2 x fallo',
+        muscle: 'Dorsales',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/lueEJGjTuPQ',
+        search: 'jalón al pecho técnica dorsales'
+      },
+      {
+        name: 'Curl de bíceps en polea con barra',
+        sets: '2 x fallo',
+        muscle: 'Bíceps',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/NFzTWp2qpiE',
+        search: 'curl biceps polea barra técnica'
+      },
+      {
+        name: 'Curl de bíceps en polea con cuerda',
+        sets: '2 x fallo',
+        muscle: 'Bíceps',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/A1j2HdWh4rY',
+        search: 'curl biceps polea cuerda técnica'
+      },
+      {
+        name: 'Posterior en pec fly inverso',
+        sets: '2 x fallo',
+        muscle: 'Deltoides posterior',
+        rest: '45s',
+        video: 'https://www.youtube.com/embed/6yMdhi2DVao',
+        search: 'reverse pec fly posterior técnica'
+      },
+      {
+        name: 'Crunch abdominal en máquina',
+        sets: '2 x fallo',
+        muscle: 'Abdomen',
+        rest: '45s',
+        video: 'https://www.youtube.com/embed/r3arb3k-qCc',
+        search: 'abdominal crunch machine técnica'
+      }
     ]
   },
-  3: {
-    title: "Jueves — Día 3",
-    subtitle: "Espalda + Tríceps",
-    time: "60-70 min",
+  'viernes': {
+    name: 'Brazo',
+    subtitle: 'Brazo completo · Hombros',
+    color: 'arms',
+    day: 'VIE',
     items: [
-      { name: "Jalón al pecho agarre amplio", muscle: "Dorsal", sets: "4 x 10-12", rest: "90 seg", restSec: 90, video: "https://www.youtube.com/embed/CAwf7n6Luuc", search: "jalón pecho agarre amplio" },
-      { name: "Remo en polea baja agarre V", muscle: "Dorsal / Romboides", sets: "4 x 10-12", rest: "90 seg", restSec: 90, video: "https://www.youtube.com/embed/GZbfZ033f74", search: "remo polea baja agarre V" },
-      { name: "Jalón agarre cerrado (V)", muscle: "Dorsal", sets: "3 x 10-12", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/EsQGCOzn0JA", search: "jalón agarre cerrado dorsal" },
-      { name: "Remo con mancuerna a 1 brazo", muscle: "Dorsal", sets: "3 x 10-12", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/roCP6wCXPqo", search: "remo mancuerna un brazo" },
-      { name: "Fondos en máquina o polea", muscle: "Tríceps", sets: "4 x 10-12", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/6kALZikXxLc", search: "fondos máquina tríceps" },
-      { name: "Extensión tríceps en polea (cuerda)", muscle: "Tríceps lateral", sets: "3 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/kiuVA0gs3EI", search: "extensión tríceps polea cuerda" },
-      { name: "Extensión tríceps sobre cabeza (polea)", muscle: "Tríceps largo", sets: "3 x 12-15", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/YbX7Wd8jQ-Q", search: "extensión tríceps sobre cabeza polea" },
+      {
+        name: 'Extensión de tríceps con barra en polea',
+        sets: '2 x fallo',
+        muscle: 'Tríceps',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/2-LAMcpzODU',
+        search: 'extensión triceps polea barra técnica'
+      },
+      {
+        name: 'Extensión de tríceps sobre la cabeza en polea con cuerda',
+        sets: '1 x fallo',
+        muscle: 'Tríceps (cabeza larga)',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/_gsUck-7M9I',
+        search: 'overhead triceps extension rope cable'
+      },
+      {
+        name: 'Curl de bíceps con barra en polea',
+        sets: '2 x fallo',
+        muscle: 'Bíceps',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/NFzTWp2qpiE',
+        search: 'curl biceps polea barra técnica'
+      },
+      {
+        name: 'Press militar en máquina',
+        sets: '1 x fallo',
+        muscle: 'Hombro',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/Wqq43dKW1TU',
+        search: 'press militar máquina técnica'
+      },
+      {
+        name: 'Elevaciones laterales en máquina',
+        sets: '3 x fallo',
+        muscle: 'Deltoides lateral',
+        rest: '45s',
+        video: 'https://www.youtube.com/embed/VcKaxpHeQHg',
+        search: 'lateral raise machine technogym técnica'
+      },
+      {
+        name: 'Posterior en pec fly inverso',
+        sets: '2 x fallo',
+        muscle: 'Deltoides posterior',
+        rest: '45s',
+        video: 'https://www.youtube.com/embed/6yMdhi2DVao',
+        search: 'reverse pec fly posterior técnica'
+      },
+      {
+        name: 'Caminadora inclinada',
+        sets: '25 min a 5 km/h',
+        muscle: 'Cardio',
+        rest: '-',
+        video: 'https://www.youtube.com/embed/8Lh-mdL2ggY',
+        search: 'caminadora inclinada cardio beneficios'
+      }
     ]
   },
-  4: {
-    title: "Viernes — Día 4",
-    subtitle: "Hombros + Antebrazos",
-    time: "55-65 min",
+  'sabado': {
+    name: 'Pecho-Espalda',
+    subtitle: 'Tren superior combinado',
+    color: 'chest-back',
+    day: 'SÁB',
     items: [
-      { name: "Press de hombro en máquina", muscle: "Hombro frontal", sets: "4 x 10-12", rest: "90 seg", restSec: 90, video: "https://www.youtube.com/embed/qEwKCR5JCog", search: "press hombro máquina" },
-      { name: "Elevaciones laterales", muscle: "Hombro lateral", sets: "4 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/3VcKaXpzqRo", search: "elevaciones laterales hombro" },
-      { name: "Elevaciones posteriores en máquina", muscle: "Hombro posterior", sets: "4 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/lPt0GqwaqEw", search: "elevaciones posteriores máquina hombro" },
-      { name: "Face pull en polea", muscle: "Hombro posterior / Trap", sets: "3 x 15-20", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/V8dZ3pyiCBo", search: "face pull polea técnica" },
-      { name: "Curl de muñeca con mancuerna (palma arriba)", muscle: "Antebrazo flexor", sets: "3 x 15-20", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/gB3rOsFeMhc", search: "curl muñeca mancuerna antebrazo" },
-      { name: "Curl inverso de muñeca con mancuerna", muscle: "Antebrazo extensor", sets: "3 x 15-20", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/gB3rOsFeMhc", search: "curl inverso muñeca mancuerna antebrazo" },
-      { name: "Plate pinch hold (sostener disco con dedos)", muscle: "Antebrazo / Agarre", sets: "3 x 30-40 seg", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/VpBsXlCBM4g", search: "plate pinch hold grip exercise" },
-    ]
-  },
-  5: {
-    title: "Sábado — Día 5",
-    subtitle: "Brazos Completo",
-    time: "60-70 min",
-    items: [
-      { name: "Curl con barra en polea baja", muscle: "Bíceps", sets: "4 x 10-12", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/UeleXjsE-mE", search: "curl bíceps polea baja barra" },
-      { name: "Curl inclinado con mancuernas (45°)", muscle: "Bíceps (cabeza larga)", sets: "3 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/soxrZlIl35U", search: "curl inclinado mancuernas bíceps" },
-      { name: "Curl martillo en polea (cuerda)", muscle: "Braquial / Antebrazo", sets: "3 x 12-15", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/P5sXHLmXmBM", search: "curl martillo polea cuerda" },
-      { name: "Press francés con mancuernas", muscle: "Tríceps", sets: "4 x 10-12", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/ir5PsbniVSc", search: "press francés mancuernas tríceps" },
-      { name: "Extensión tríceps en polea (barra recta)", muscle: "Tríceps lateral", sets: "3 x 12-15", rest: "60 seg", restSec: 60, video: "https://www.youtube.com/embed/2-LAMcpzODU", search: "extensión tríceps polea barra recta" },
-      { name: "Patada de tríceps con mancuerna", muscle: "Tríceps largo", sets: "3 x 12-15", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/6SS6K3lAwZ8", search: "patada tríceps mancuerna kickback" },
-      { name: "Curl de muñeca con mancuerna (palma arriba)", muscle: "Antebrazo flexor", sets: "3 x 15-20", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/gB3rOsFeMhc", search: "curl muñeca mancuerna antebrazo" },
-      { name: "Curl inverso con mancuerna", muscle: "Antebrazo / Braquiorradial", sets: "3 x 12-15", rest: "45 seg", restSec: 45, video: "https://www.youtube.com/embed/YZOS2k3yFLI", search: "curl inverso mancuerna antebrazo" },
+      {
+        name: 'Press inclinado con mancuernas',
+        sets: '2 x fallo',
+        muscle: 'Pecho superior',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/8iPEnn-ltC8',
+        search: 'press inclinado mancuernas técnica'
+      },
+      {
+        name: 'Press plano en máquina',
+        sets: '1 x fallo',
+        muscle: 'Pecho medio',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/xUm0BiZCWlQ',
+        search: 'press plano máquina técnica'
+      },
+      {
+        name: 'Pec Fly (Peck Deck)',
+        sets: '2 x fallo',
+        muscle: 'Pecho',
+        rest: '60s',
+        video: 'https://www.youtube.com/embed/Z57CtFmRMxA',
+        search: 'pec deck fly máquina técnica'
+      },
+      {
+        name: 'Remo en máquina',
+        sets: '2 x fallo',
+        muscle: 'Espalda media',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/GZbfZ033f74',
+        search: 'remo máquina técnica espalda'
+      },
+      {
+        name: 'Remo con pecho apoyado en banco (mancuernas)',
+        sets: '2 x fallo',
+        muscle: 'Espalda alta',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/Fy1wIWwlwjo',
+        search: 'remo pecho apoyado banco mancuernas'
+      },
+      {
+        name: 'Jalón al pecho',
+        sets: '2 x fallo',
+        muscle: 'Dorsales',
+        rest: '90s',
+        video: 'https://www.youtube.com/embed/lueEJGjTuPQ',
+        search: 'jalón al pecho técnica dorsales'
+      },
+      {
+        name: 'Crunch abdominal en máquina',
+        sets: '2 x fallo',
+        muscle: 'Abdomen',
+        rest: '45s',
+        video: 'https://www.youtube.com/embed/r3arb3k-qCc',
+        search: 'abdominal crunch machine técnica'
+      }
     ]
   }
 };
 
+const restDays = ['martes', 'jueves', 'domingo'];
+
 // ==================== STATE ====================
-let currentDay = 1;
+let currentDay = getCurrentDay();
 let timerInterval = null;
 let timerSeconds = 90;
+let timerRemaining = 90;
 let timerRunning = false;
-let currentTimerTotal = 90;
-let currentWeightExercise = null;
 let currentWeightDay = null;
+let currentWeightExercise = null;
 
-// ==================== STORAGE ====================
-function getChecked(day) {
-  try { return JSON.parse(localStorage.getItem(`checked_${day}`) || '[]'); }
-  catch { return []; }
+function getCurrentDay() {
+  const days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+  const today = days[new Date().getDay()];
+  if (exercises[today]) return today;
+  // If rest day, go to next training day
+  const order = ['lunes', 'miercoles', 'viernes', 'sabado'];
+  return order[0];
 }
 
-function setChecked(day, arr) {
-  localStorage.setItem(`checked_${day}`, JSON.stringify(arr));
+// ==================== STORAGE ====================
+function getChecked() {
+  const today = new Date().toDateString();
+  const data = JSON.parse(localStorage.getItem('checked') || '{}');
+  if (data.date !== today) {
+    return { date: today, items: {} };
+  }
+  return data;
+}
+
+function setChecked(data) {
+  localStorage.setItem('checked', JSON.stringify(data));
+}
+
+function toggleCheck(day, index) {
+  const data = getChecked();
+  const key = `${day}-${index}`;
+  data.items[key] = !data.items[key];
+  setChecked(data);
+  renderDay(day);
+  renderStats();
 }
 
 function getWeightLog() {
-  try { return JSON.parse(localStorage.getItem('weightLog') || '{}'); }
-  catch { return {}; }
+  return JSON.parse(localStorage.getItem('weightLog') || '{}');
 }
 
 function saveWeightLog(log) {
@@ -956,295 +970,269 @@ function saveWeightLog(log) {
 
 // ==================== RENDER ====================
 function renderApp() {
-  const app = document.getElementById('app');
+  renderTabs();
+  renderStats();
+  renderDay(currentDay);
+}
+
+function renderTabs() {
+  const tabsEl = document.getElementById('tabs');
+  const order = ['lunes', 'miercoles', 'viernes', 'sabado'];
   let html = '';
-  
-  // Render each day
-  for (let day = 1; day <= 5; day++) {
+  order.forEach(day => {
     const d = exercises[day];
-    const checked = getChecked(day);
-    const completedCount = checked.length;
-    const totalCount = d.items.length;
-    
-    html += `<div class="day-content day-${day} ${day === 1 ? 'active' : ''}" id="day-${day}">`;
-    html += `<div class="day-header">`;
-    html += `<h2>${d.title}</h2>`;
-    html += `<div class="subtitle">${d.subtitle}</div>`;
-    html += `<div class="day-header-row">`;
-    html += `<div class="time-badge">⏱ ${d.time}</div>`;
-    html += `<div class="progress-text">${completedCount}/${totalCount} completados</div>`;
-    html += `</div></div>`;
-    
-    d.items.forEach((ex, i) => {
-      const isCompleted = checked.includes(i);
-      html += `<div class="exercise-card ${isCompleted ? 'completed' : ''}" id="card-${day}-${i}">`;
-      html += `<div class="exercise-main">`;
-      html += `<div class="exercise-num"><span>${i + 1}</span></div>`;
-      html += `<div class="exercise-info">`;
-      html += `<div class="exercise-name">${ex.name}</div>`;
-      html += `<div class="exercise-muscle">${ex.muscle}</div>`;
-      html += `<div class="exercise-meta">`;
-      html += `<span class="meta-tag sets">${ex.sets}</span>`;
-      html += `<span class="meta-tag rest">${ex.rest}</span>`;
-      html += `</div></div></div>`;
-      
-      html += `<div class="exercise-actions">`;
-      html += `<button class="action-btn video-btn" onclick="openVideo(${day}, ${i})"><span class="icon">▶️</span>Video</button>`;
-      html += `<button class="action-btn timer-btn" onclick="openTimer(${day}, ${i})"><span class="icon">⏱</span>Timer</button>`;
-      html += `<button class="action-btn weight-btn" onclick="openWeight(${day}, ${i})"><span class="icon">🏋️</span>Peso</button>`;
-      html += `<button class="action-btn check-btn" onclick="toggleCheck(${day}, ${i})"><span class="icon">${isCompleted ? '✅' : '⬜'}</span>${isCompleted ? 'Hecho' : 'Marcar'}</button>`;
-      html += `</div></div>`;
-    });
-    
-    if (d.warning) {
-      html += `<div class="warning-box"><div class="title">⚠️ Nota rodilla</div><p>${d.warning}</p></div>`;
-    }
-    
-    html += `<button class="reset-btn" onclick="resetDay(${day})">🔄 Reiniciar día</button>`;
-    html += `</div>`;
+    const active = day === currentDay ? `active ${d.color}` : '';
+    html += `
+      <div class="tab ${active}" onclick="showDay('${day}')">
+        <span class="tab-day">${d.day}</span>
+        <span class="tab-name">${d.name}</span>
+      </div>
+    `;
+  });
+  html += `
+    <div class="tab ${currentDay === 'log' ? 'active log' : ''}" onclick="showDay('log')">
+      <span class="tab-day">📊</span>
+      <span class="tab-name">Log</span>
+    </div>
+  `;
+  tabsEl.innerHTML = html;
+}
+
+function renderStats() {
+  const statsEl = document.getElementById('statsRow');
+  const checked = getChecked();
+  const doneToday = Object.values(checked.items).filter(v => v).length;
+  const totalToday = exercises[currentDay]?.items.length || 0;
+  const totalExercises = Object.values(exercises).reduce((sum, d) => sum + d.items.length, 0);
+  const logEntries = Object.keys(getWeightLog()).length;
+
+  statsEl.innerHTML = `
+    <div class="stat-chip"><span class="dot"></span>Hoy: ${doneToday}/${totalToday}</div>
+    <div class="stat-chip">📅 4 días/sem</div>
+    <div class="stat-chip">💪 ${totalExercises} ejercicios</div>
+    <div class="stat-chip">📊 ${logEntries} días registrados</div>
+  `;
+}
+
+function showDay(day) {
+  currentDay = day;
+  renderTabs();
+  renderStats();
+  renderDay(day);
+}
+
+function renderDay(day) {
+  const content = document.getElementById('content');
+
+  if (day === 'log') {
+    renderLog();
+    return;
   }
-  
-  // Notes section
-  html += `<div class="day-content" id="day-notes"><div class="notes-section">`;
-  html += `<div class="section-title">Puntos Clave</div>`;
-  
-  const notes = [
-    { label: "Prioridad Brazos", color: "red", text: "Bíceps y tríceps se trabajan 2x/semana (día secundario + día dedicado). Antebrazos 2x/semana." },
-    { label: "Cuádriceps", color: "green", text: "Día de pierna con pre-activación + 4 ejercicios directos de cuádriceps para fortalecer la rodilla." },
-    { label: "Técnica", color: "blue", text: "Controla la fase excéntrica (bajar el peso en 2-3 seg). En brazos esto es clave para crecimiento." },
-    { label: "Progresión", color: "purple", text: "Cuando completes todas las reps del rango superior, sube peso la siguiente sesión." },
-    { label: "Proteína", color: "cyan", text: "150-165g diarios (1.8-2g por kg de peso). Fundamental para construcción muscular." },
-    { label: "Déficit Calórico", color: "yellow", text: "300-500 kcal bajo mantenimiento para definición sin perder músculo." },
-    { label: "Rodilla", color: "red", text: "Evitar movimientos rotacionales, lunges libres y saltos. Todo lineal y controlado." },
-    { label: "Abdomen", color: "green", text: "2-3 series de planchas (30-45 seg) al final de los días 1 y 2. Los abs se definen con la dieta." },
-    { label: "Descanso", color: "blue", text: "Dormir mínimo 7 horas. La recuperación es donde el músculo crece." },
-    { label: "Cardio", color: "purple", text: "Bicicleta estática 20-30 min post-entreno o en día de descanso para ayudar al déficit." },
-  ];
-  
-  notes.forEach(n => {
-    html += `<div class="note-card"><div class="label label-${n.color}">${n.label}</div><p>${n.text}</p></div>`;
+
+  const d = exercises[day];
+  if (!d) return;
+
+  const checked = getChecked();
+
+  let html = `
+    <div class="day-header">
+      <div>
+        <div class="day-title">${d.name}</div>
+        <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px">${d.subtitle}</div>
+      </div>
+      <div class="day-count">${d.items.length} ejercicios</div>
+    </div>
+
+    <div class="warmup-banner">
+      <span class="icon">🔥</span>
+      <span><strong>Siempre calentar</strong>: estiramientos dinámicos, movilidad y series de aproximación antes de empezar.</span>
+    </div>
+
+    <div class="knee-warning">
+      <span class="icon">⚠️</span>
+      <span><strong>Cuidado con la rodilla.</strong> ACL roto confirmado. Prioriza movimientos lineales, evita rotaciones y saltos. Si duele, para.</span>
+    </div>
+  `;
+
+  d.items.forEach((ex, i) => {
+    const key = `${day}-${i}`;
+    const isChecked = checked.items[key];
+    html += `
+      <div class="exercise-card ${isChecked ? 'done' : ''}">
+        <div class="exercise-top">
+          <button class="check-btn ${isChecked ? 'checked' : ''}" onclick="toggleCheck('${day}', ${i})"></button>
+          <div class="exercise-info">
+            <div class="exercise-name">${ex.name}</div>
+            <div class="exercise-meta">
+              <span class="meta-tag">${ex.sets}</span>
+              <span class="meta-tag muscle">${ex.muscle}</span>
+              <span class="meta-tag rest">⏱ ${ex.rest}</span>
+            </div>
+          </div>
+        </div>
+        <div class="exercise-actions">
+          <button class="action-btn video" onclick="openVideo('${day}', ${i})">▶️ Video</button>
+          <button class="action-btn timer" onclick="openTimer('${ex.rest}')">⏱️ Timer</button>
+          <button class="action-btn weight" onclick="openWeight('${day}', ${i})">🏋️ Peso</button>
+        </div>
+      </div>
+    `;
   });
-  
-  html += `<div class="section-title" style="margin-top:20px">Pesos de Referencia</div>`;
-  html += `<table class="weights-table"><thead><tr><th>Ejercicio</th><th>Peso</th></tr></thead><tbody>`;
-  
-  const refWeights = [
-    ["Press inclinado/plano", "10-14 kg c/u"],
-    ["Aperturas / Cruces", "6-10 kg c/u"],
-    ["Curl bíceps", "8-12 kg c/u"],
-    ["Curl martillo", "8-10 kg c/u"],
-    ["Curl concentrado", "6-8 kg"],
-    ["Extensión tríceps polea", "15-25 kg"],
-    ["Press francés", "6-10 kg c/u"],
-    ["Elevaciones laterales", "6-10 kg c/u"],
-    ["Curl muñeca", "4-8 kg c/u"],
-    ["Plate pinch hold", "Disco de 10-20 kg"],
-  ];
-  
-  refWeights.forEach(w => {
-    html += `<tr><td>${w[0]}</td><td>${w[1]}</td></tr>`;
-  });
-  
-  html += `</tbody></table></div></div>`;
-  
-  // Log section
-  html += `<div class="day-content" id="day-log"><div class="log-section">`;
-  html += `<div class="section-title">Historial de Pesos</div>`;
-  
+
+  html += `
+    <div class="note-card">
+      <strong>📝 Recuerda:</strong> Dormir bien y comer excelente. Protein target: 150–165g/día. El descanso también es parte del entreno.
+    </div>
+  `;
+
+  content.innerHTML = html;
+}
+
+function renderLog() {
+  const content = document.getElementById('content');
   const log = getWeightLog();
   const dates = Object.keys(log).sort().reverse();
-  
+
   if (dates.length === 0) {
-    html += `<div class="log-empty"><div class="icon">📊</div><p>Aún no hay registros.<br>Usa el botón 🏋️ en cada ejercicio para guardar tus pesos.</p></div>`;
-  } else {
-    dates.slice(0, 30).forEach(date => {
-      const entries = log[date];
-      html += `<div class="log-card"><div class="date-header">📅 ${date}</div>`;
-      entries.forEach(e => {
-        html += `<div class="log-exercise"><span class="name">${e.name}</span><span class="weight">${e.weight}kg × ${e.reps}</span></div>`;
-      });
-      html += `</div>`;
+    content.innerHTML = `
+      <div class="log-empty">
+        <span class="icon">📊</span>
+        <p>Aún no hay registros</p>
+        <p style="font-size:0.75rem;margin-top:6px">Registra pesos desde cada ejercicio</p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '<div class="day-header"><div class="day-title">📊 Historial</div></div>';
+
+  dates.forEach(date => {
+    const entries = log[date];
+    html += `
+      <div class="log-entry">
+        <div class="log-date">${new Date(date).toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' })}</div>
+    `;
+    entries.forEach(e => {
+      html += `
+        <div class="log-exercise">
+          <span>${e.name}</span>
+          <span class="log-weight">${e.weight}kg × ${e.reps}</span>
+        </div>
+      `;
     });
-    html += `<button class="clear-log-btn" onclick="clearLog()">🗑 Borrar historial</button>`;
-  }
-  
-  html += `</div></div>`;
-  
-  app.innerHTML = html;
-}
+    html += '</div>';
+  });
 
-// ==================== NAVIGATION ====================
-function showDay(day) {
-  document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-  
-  const dayId = day === 'notes' ? 'day-notes' : day === 'log' ? 'day-log' : `day-${day}`;
-  document.getElementById(dayId).classList.add('active');
-  
-  const tabSelector = `[data-day="${day}"]`;
-  document.querySelector(tabSelector).classList.add('active');
-  
-  if (typeof day === 'number') currentDay = day;
-}
-
-// ==================== CHECKLIST ====================
-function toggleCheck(day, index) {
-  let checked = getChecked(day);
-  if (checked.includes(index)) {
-    checked = checked.filter(i => i !== index);
-  } else {
-    checked.push(index);
-  }
-  setChecked(day, checked);
-  renderApp();
-  showDay(day);
-}
-
-function resetDay(day) {
-  if (confirm('¿Reiniciar todos los ejercicios de este día?')) {
-    setChecked(day, []);
-    renderApp();
-    showDay(day);
-  }
+  html += '<button class="clear-log-btn" onclick="clearLog()">🗑️ Borrar historial</button>';
+  content.innerHTML = html;
 }
 
 // ==================== TIMER ====================
-function openTimer(day, index) {
-  const ex = exercises[day].items[index];
-  timerSeconds = ex.restSec;
-  currentTimerTotal = ex.restSec;
-  timerRunning = false;
-  clearInterval(timerInterval);
-  
-  document.getElementById('timerLabel').textContent = `Descanso — ${ex.name}`;
-  updateTimerDisplay();
-  updatePresets();
-  document.getElementById('timerStartBtn').textContent = 'Iniciar';
-  document.getElementById('timerStartBtn').className = 'timer-btn-action timer-btn-start';
+function openTimer(rest) {
+  const seconds = parseInt(rest) || 90;
+  setPreset(seconds);
   document.getElementById('timerModal').classList.add('active');
 }
 
-function setTimer(sec) {
-  timerSeconds = sec;
-  currentTimerTotal = sec;
-  timerRunning = false;
-  clearInterval(timerInterval);
+function setPreset(seconds) {
+  timerSeconds = seconds;
+  timerRemaining = seconds;
   updateTimerDisplay();
-  updatePresets();
-  document.getElementById('timerStartBtn').textContent = 'Iniciar';
-  document.getElementById('timerStartBtn').className = 'timer-btn-action timer-btn-start';
+  document.querySelectorAll('.preset-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.seconds) === seconds);
+  });
+  if (timerRunning) stopTimer();
 }
 
-function updatePresets() {
-  document.querySelectorAll('.timer-preset').forEach(el => {
-    el.classList.toggle('active', parseInt(el.textContent) === currentTimerTotal);
-  });
+function updateTimerDisplay() {
+  const m = Math.floor(timerRemaining / 60).toString().padStart(2, '0');
+  const s = (timerRemaining % 60).toString().padStart(2, '0');
+  document.getElementById('timerDisplay').textContent = `${m}:${s}`;
 }
 
 function toggleTimer() {
   if (timerRunning) {
-    timerRunning = false;
-    clearInterval(timerInterval);
-    document.getElementById('timerStartBtn').textContent = 'Continuar';
-    document.getElementById('timerStartBtn').className = 'timer-btn-action timer-btn-start';
+    stopTimer();
   } else {
-    if (timerSeconds <= 0) {
-      timerSeconds = currentTimerTotal;
-    }
-    timerRunning = true;
-    document.getElementById('timerStartBtn').textContent = 'Pausar';
-    document.getElementById('timerStartBtn').className = 'timer-btn-action timer-btn-stop';
-    timerInterval = setInterval(() => {
-      timerSeconds--;
-      updateTimerDisplay();
-      if (timerSeconds <= 0) {
-        clearInterval(timerInterval);
-        timerRunning = false;
-        document.getElementById('timerDisplay').className = 'timer-display done';
-        document.getElementById('timerDisplay').textContent = '¡GO!';
-        document.getElementById('timerStartBtn').textContent = 'Reiniciar';
-        document.getElementById('timerStartBtn').className = 'timer-btn-action timer-btn-start';
-        // Vibrate if supported
-        if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 200]);
-      }
-    }, 1000);
+    startTimer();
   }
 }
 
-function updateTimerDisplay() {
-  const min = Math.floor(timerSeconds / 60);
-  const sec = timerSeconds % 60;
-  const display = document.getElementById('timerDisplay');
-  display.textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-  
-  if (timerSeconds <= 10 && timerSeconds > 0) {
-    display.className = 'timer-display warning';
-  } else {
-    display.className = 'timer-display';
-  }
+function startTimer() {
+  timerRunning = true;
+  document.getElementById('startBtn').textContent = 'Pausar';
+  document.getElementById('timerDisplay').classList.add('timer-active');
+  timerInterval = setInterval(() => {
+    timerRemaining--;
+    updateTimerDisplay();
+    if (timerRemaining <= 0) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById('timerDisplay').classList.remove('timer-active');
+      document.getElementById('startBtn').textContent = 'Iniciar';
+      // Vibration
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 200]);
+      // Beep
+      playBeep();
+      timerRemaining = timerSeconds;
+      updateTimerDisplay();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  document.getElementById('startBtn').textContent = 'Iniciar';
+  document.getElementById('timerDisplay').classList.remove('timer-active');
 }
 
 function closeTimer() {
-  clearInterval(timerInterval);
-  timerRunning = false;
+  stopTimer();
+  timerRemaining = timerSeconds;
+  updateTimerDisplay();
   document.getElementById('timerModal').classList.remove('active');
 }
 
-// ==================== WEIGHT LOG ====================
+function playBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 800;
+    gain.gain.value = 0.3;
+    osc.start();
+    setTimeout(() => { osc.stop(); ctx.close(); }, 500);
+  } catch(e) {}
+}
+
+// ==================== WEIGHT ====================
 function openWeight(day, index) {
   currentWeightDay = day;
   currentWeightExercise = index;
   const ex = exercises[day].items[index];
-  
-  document.getElementById('weightExerciseLabel').textContent = ex.name;
+  document.getElementById('weightModalTitle').textContent = ex.name;
   document.getElementById('weightInput').value = '';
   document.getElementById('repsInput').value = '';
-  
-  // Show history
-  const log = getWeightLog();
-  const historyHtml = [];
-  const dates = Object.keys(log).sort().reverse();
-  let count = 0;
-  
-  for (const date of dates) {
-    const entries = log[date].filter(e => e.day === day && e.index === index);
-    entries.forEach(e => {
-      if (count < 5) {
-        historyHtml.push(`<div class="weight-entry"><span class="date">${date}</span><span class="value">${e.weight}kg × ${e.reps} reps</span></div>`);
-        count++;
-      }
-    });
-  }
-  
-  const historyEl = document.getElementById('weightHistory');
-  if (historyHtml.length > 0) {
-    historyEl.innerHTML = `<div class="weight-history-title">Últimos registros</div>${historyHtml.join('')}`;
-  } else {
-    historyEl.innerHTML = `<div class="weight-history-title">Sin registros previos</div>`;
-  }
-  
   document.getElementById('weightModal').classList.add('active');
-  setTimeout(() => document.getElementById('weightInput').focus(), 300);
+  setTimeout(() => document.getElementById('weightInput').focus(), 100);
 }
 
 function saveWeight() {
   const weight = parseFloat(document.getElementById('weightInput').value);
   const reps = parseInt(document.getElementById('repsInput').value);
-  
-  if (!weight || !reps) {
-    alert('Ingresa peso y reps');
-    return;
-  }
-  
-  const ex = exercises[currentWeightDay].items[currentWeightExercise];
-  const today = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  
+  if (!weight || !reps) return;
+
+  const today = new Date().toISOString().split('T')[0];
   const log = getWeightLog();
   if (!log[today]) log[today] = [];
-  
-  // Remove previous entry for same exercise today
+
+  const ex = exercises[currentWeightDay].items[currentWeightExercise];
+  // Remove previous entry for the same exercise today
   log[today] = log[today].filter(e => !(e.day === currentWeightDay && e.index === currentWeightExercise));
-  
+
   log[today].push({
     day: currentWeightDay,
     index: currentWeightExercise,
@@ -1252,7 +1240,7 @@ function saveWeight() {
     weight: weight,
     reps: reps
   });
-  
+
   saveWeightLog(log);
   closeWeight();
   renderApp();
@@ -1276,8 +1264,7 @@ function openVideo(day, index) {
   const ex = exercises[day].items[index];
   const searchQuery = ex.search || ex.name;
   const shortsUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery + ' shorts técnica')}&sp=EgIYAQ%253D%253D`;
-  const shortSearchEmbed = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(searchQuery + ' gym short')}`;
-  
+
   document.getElementById('videoTitle').textContent = ex.name;
   document.getElementById('videoFrame').src = ex.video + '?rel=0';
   document.getElementById('videoShortLink').href = shortsUrl;
