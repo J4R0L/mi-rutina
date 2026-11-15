@@ -159,7 +159,15 @@
   .tab.active.pull { background: var(--gradient-2); }
   .tab.active.arms { background: var(--gradient-3); }
   .tab.active.chest-back { background: var(--gradient-5); }
+  .tab.active.cardio { background: var(--gradient-6); }
   .tab.active.log { background: var(--gradient-4); }
+
+  .exercise-note {
+    font-size: 0.74rem;
+    color: var(--text-dim);
+    line-height: 1.45;
+    margin: -2px 0 10px 40px;
+  }
 
   .tab.rest {
     opacity: 0.5;
@@ -580,7 +588,7 @@
 
 <div class="header">
   <h1>💪 Mi Rutina</h1>
-  <p>4 días · Push · Pull · Brazos · Pecho-Espalda</p>
+  <p>Pérdida de grasa · Pierna · Superior · Intervalos · Circuito · Cardio</p>
   <p class="coach">Coach: Nicolás Y. Leguizamón</p>
 </div>
 
@@ -643,281 +651,329 @@
 <script>
 // ==================== DATA ====================
 const exercises = {
-  'lunes': {
-    name: 'Push',
-    subtitle: 'Empuje · Pecho · Hombro · Tríceps',
-    color: 'push',
-    day: 'LUN',
-    items: [
+  "lunes": {
+    "name": "Pierna",
+    "subtitle": "Pierna · Glúteo medio · Core",
+    "color": "push",
+    "day": "LUN",
+    "items": [
       {
-        name: 'Press inclinado con mancuernas',
-        sets: '2 x fallo',
-        muscle: 'Pecho superior',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/8iPEnn-ltC8',
-        search: 'press inclinado mancuernas técnica'
+        "name": "Bici estática (calentamiento)",
+        "sets": "10 min",
+        "muscle": "Calentamiento",
+        "rest": "-",
+        "note": "Empieza sin resistencia y súbela poco a poco",
+        "video": null,
+        "search": "bicicleta estática calentamiento"
       },
       {
-        name: 'Press plano en máquina',
-        sets: '1 x fallo',
-        muscle: 'Pecho medio',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/xUm0BiZCWlQ',
-        search: 'press plano máquina técnica'
+        "name": "Prensa de piernas (rango corto)",
+        "sets": "3 x 12-15",
+        "muscle": "Cuádriceps · Glúteo",
+        "rest": "75s",
+        "note": "Banda arriba de las rodillas, empujando hacia afuera. Hasta el ángulo que autorizó el fisio; no bloquees la rodilla arriba",
+        "video": null,
+        "search": "prensa de piernas técnica rodilla"
       },
       {
-        name: 'Pec Fly (Peck Deck)',
-        sets: '2 x fallo',
-        muscle: 'Pecho',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/Z57CtFmRMxA',
-        search: 'pec deck fly máquina técnica'
+        "name": "Sentadilla a cajón",
+        "sets": "3 x 10-12",
+        "muscle": "Cuádriceps · Glúteo",
+        "rest": "75s",
+        "note": "Rodillas apuntando a la punta de los pies, nunca hacia adentro. Banda arriba de las rodillas. Bota el aire al subir",
+        "video": null,
+        "search": "box squat sentadilla a cajón técnica"
       },
       {
-        name: 'Extensión de tríceps con barra en polea',
-        sets: '2 x fallo',
-        muscle: 'Tríceps',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/2-LAMcpzODU',
-        search: 'extensión triceps polea barra técnica'
+        "name": "Puente de glúteo / hip thrust",
+        "sets": "3 x 12-15",
+        "muscle": "Glúteo",
+        "rest": "60s",
+        "note": "Banda arriba de las rodillas, abriéndolas. Pausa de 1 s arriba",
+        "video": null,
+        "search": "hip thrust técnica"
       },
       {
-        name: 'Extensión de tríceps sobre la cabeza en polea con cuerda',
-        sets: '2 x fallo',
-        muscle: 'Tríceps (cabeza larga)',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/_gsUck-7M9I',
-        search: 'overhead triceps extension rope cable'
+        "name": "Curl femoral en máquina",
+        "sets": "3 x 12-15",
+        "muscle": "Isquiotibiales",
+        "rest": "60s",
+        "note": "Peso liviano: el injerto salió de aquí. Súbelo de a poco",
+        "video": null,
+        "search": "curl femoral máquina técnica"
       },
       {
-        name: 'Press militar en máquina',
-        sets: '1 x fallo',
-        muscle: 'Hombro',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/Wqq43dKW1TU',
-        search: 'press militar máquina técnica'
+        "name": "Abducción de cadera en máquina",
+        "sets": "4 x 15",
+        "muscle": "Glúteo medio",
+        "rest": "45s",
+        "note": "Prioridad por el valgo. Sube y baja lento",
+        "video": null,
+        "search": "abducción de cadera máquina técnica"
       },
       {
-        name: 'Elevaciones laterales en máquina',
-        sets: '3 x fallo',
-        muscle: 'Deltoides lateral',
-        rest: '45s',
-        video: 'https://www.youtube.com/embed/VcKaxpHeQHg',
-        search: 'lateral raise machine technogym técnica'
+        "name": "Caminata lateral con banda (monster walk)",
+        "sets": "3 x 12 pasos por lado",
+        "muscle": "Glúteo medio",
+        "rest": "45s",
+        "note": "Semiflexionado, empujando las rodillas hacia afuera contra la banda",
+        "video": null,
+        "search": "monster walk banda glúteo medio"
       },
       {
-        name: 'Crunch abdominal en máquina',
-        sets: '2 x fallo',
-        muscle: 'Abdomen',
-        rest: '45s',
-        video: 'https://www.youtube.com/embed/r3arb3k-qCc',
-        search: 'abdominal crunch machine técnica'
+        "name": "Clamshell con banda",
+        "sets": "3 x 15 por lado",
+        "muscle": "Glúteo medio",
+        "rest": "45s",
+        "note": "Acostado de lado, abre la rodilla de arriba sin rotar la cadera hacia atrás",
+        "video": null,
+        "search": "clamshell banda técnica"
       },
       {
-        name: 'Caminadora inclinada',
-        sets: '25 min a 5 km/h',
-        muscle: 'Cardio',
-        rest: '-',
-        video: 'https://www.youtube.com/embed/8Lh-mdL2ggY',
-        search: 'caminadora inclinada cardio beneficios'
+        "name": "Pantorrilla de pie",
+        "sets": "3 x 15",
+        "muscle": "Pantorrilla",
+        "rest": "45s",
+        "video": null,
+        "search": "elevación de talones de pie técnica"
+      },
+      {
+        "name": "Plancha frontal",
+        "sets": "3 x 30-40 s",
+        "muscle": "Core",
+        "rest": "45s",
+        "note": "Respira normal, no aguantes el aire",
+        "video": null,
+        "search": "plancha abdominal técnica"
       }
     ]
   },
-  'miercoles': {
-    name: 'Pull',
-    subtitle: 'Jalón · Espalda · Bíceps',
-    color: 'pull',
-    day: 'MIÉ',
-    items: [
+  "martes": {
+    "name": "Superior",
+    "subtitle": "Espalda · Pecho · Hombro · Brazos",
+    "color": "pull",
+    "day": "MAR",
+    "items": [
       {
-        name: 'Remo en máquina',
-        sets: '2 x fallo',
-        muscle: 'Espalda media',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/GZbfZ033f74',
-        search: 'remo máquina técnica espalda'
+        "name": "Remo en polea o máquina",
+        "sets": "3 x 10-12",
+        "muscle": "Espalda media",
+        "rest": "75s",
+        "video": "https://www.youtube.com/embed/GZbfZ033f74",
+        "search": "remo máquina técnica espalda"
       },
       {
-        name: 'Remo con pecho apoyado en banco (mancuernas)',
-        sets: '2 x fallo',
-        muscle: 'Espalda alta',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/Fy1wIWwlwjo',
-        search: 'remo pecho apoyado banco mancuernas'
+        "name": "Press de pecho (máquina o mancuernas)",
+        "sets": "3 x 10-12",
+        "muscle": "Pecho",
+        "rest": "75s",
+        "note": "Bota el aire al empujar",
+        "video": "https://www.youtube.com/embed/xUm0BiZCWlQ",
+        "search": "press plano máquina técnica"
       },
       {
-        name: 'Jalón al pecho',
-        sets: '2 x fallo',
-        muscle: 'Dorsales',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/lueEJGjTuPQ',
-        search: 'jalón al pecho técnica dorsales'
+        "name": "Jalón al pecho",
+        "sets": "3 x 10-12",
+        "muscle": "Dorsales",
+        "rest": "75s",
+        "video": "https://www.youtube.com/embed/lueEJGjTuPQ",
+        "search": "jalón al pecho técnica dorsales"
       },
       {
-        name: 'Curl de bíceps en polea con barra',
-        sets: '2 x fallo',
-        muscle: 'Bíceps',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/NFzTWp2qpiE',
-        search: 'curl biceps polea barra técnica'
+        "name": "Press de hombro sentado",
+        "sets": "3 x 10-12",
+        "muscle": "Hombro",
+        "rest": "75s",
+        "note": "Peso moderado. Si la presión salió alta ese día, sáltalo",
+        "video": "https://www.youtube.com/embed/Wqq43dKW1TU",
+        "search": "press militar máquina técnica"
       },
       {
-        name: 'Curl de bíceps en polea con cuerda',
-        sets: '2 x fallo',
-        muscle: 'Bíceps',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/A1j2HdWh4rY',
-        search: 'curl biceps polea cuerda técnica'
+        "name": "Face pull",
+        "sets": "3 x 15",
+        "muscle": "Deltoides posterior",
+        "rest": "45s",
+        "video": null,
+        "search": "face pull polea técnica"
       },
       {
-        name: 'Posterior en pec fly inverso',
-        sets: '2 x fallo',
-        muscle: 'Deltoides posterior',
-        rest: '45s',
-        video: 'https://www.youtube.com/embed/6yMdhi2DVao',
-        search: 'reverse pec fly posterior técnica'
+        "name": "Bíceps + tríceps (superserie)",
+        "sets": "2 x 12-15",
+        "muscle": "Bíceps · Tríceps",
+        "rest": "60s",
+        "note": "Uno tras otro, descansas al terminar los dos",
+        "video": "https://www.youtube.com/embed/NFzTWp2qpiE",
+        "search": "superserie biceps triceps polea"
       },
       {
-        name: 'Crunch abdominal en máquina',
-        sets: '2 x fallo',
-        muscle: 'Abdomen',
-        rest: '45s',
-        video: 'https://www.youtube.com/embed/r3arb3k-qCc',
-        search: 'abdominal crunch machine técnica'
+        "name": "Pallof press",
+        "sets": "3 x 10 por lado",
+        "muscle": "Core antirrotación",
+        "rest": "45s",
+        "note": "Sirve para el fútbol",
+        "video": null,
+        "search": "pallof press técnica"
       }
     ]
   },
-  'viernes': {
-    name: 'Brazo',
-    subtitle: 'Brazo completo · Hombros',
-    color: 'arms',
-    day: 'VIE',
-    items: [
+  "miercoles": {
+    "name": "Intervalos",
+    "subtitle": "Cardio por intervalos · Core",
+    "color": "arms",
+    "day": "MIÉ",
+    "items": [
       {
-        name: 'Extensión de tríceps con barra en polea',
-        sets: '2 x fallo',
-        muscle: 'Tríceps',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/2-LAMcpzODU',
-        search: 'extensión triceps polea barra técnica'
+        "name": "Bici estática por intervalos",
+        "sets": "5 min suave + 8 x (1 min fuerte / 2 min suave) + 5 min suave",
+        "muscle": "Cardio",
+        "rest": "-",
+        "note": "\"Fuerte\" es 7 de 10, no al máximo, por la presión",
+        "video": null,
+        "search": "intervalos bicicleta estática"
       },
       {
-        name: 'Extensión de tríceps sobre la cabeza en polea con cuerda',
-        sets: '1 x fallo',
-        muscle: 'Tríceps (cabeza larga)',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/_gsUck-7M9I',
-        search: 'overhead triceps extension rope cable'
+        "name": "Elíptica o caminadora inclinada",
+        "sets": "15 min",
+        "muscle": "Cardio",
+        "rest": "-",
+        "note": "Ritmo en que puedes hablar en frases cortas",
+        "video": "https://www.youtube.com/embed/8Lh-mdL2ggY",
+        "search": "caminadora inclinada cardio"
       },
       {
-        name: 'Curl de bíceps con barra en polea',
-        sets: '2 x fallo',
-        muscle: 'Bíceps',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/NFzTWp2qpiE',
-        search: 'curl biceps polea barra técnica'
+        "name": "Dead bug",
+        "sets": "3 x 10 por lado",
+        "muscle": "Core",
+        "rest": "45s",
+        "video": null,
+        "search": "dead bug ejercicio técnica"
       },
       {
-        name: 'Press militar en máquina',
-        sets: '1 x fallo',
-        muscle: 'Hombro',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/Wqq43dKW1TU',
-        search: 'press militar máquina técnica'
+        "name": "Plancha lateral",
+        "sets": "3 x 25 s por lado",
+        "muscle": "Core · Oblicuos",
+        "rest": "45s",
+        "video": null,
+        "search": "plancha lateral técnica"
       },
       {
-        name: 'Elevaciones laterales en máquina',
-        sets: '3 x fallo',
-        muscle: 'Deltoides lateral',
-        rest: '45s',
-        video: 'https://www.youtube.com/embed/VcKaxpHeQHg',
-        search: 'lateral raise machine technogym técnica'
-      },
-      {
-        name: 'Posterior en pec fly inverso',
-        sets: '2 x fallo',
-        muscle: 'Deltoides posterior',
-        rest: '45s',
-        video: 'https://www.youtube.com/embed/6yMdhi2DVao',
-        search: 'reverse pec fly posterior técnica'
-      },
-      {
-        name: 'Caminadora inclinada',
-        sets: '25 min a 5 km/h',
-        muscle: 'Cardio',
-        rest: '-',
-        video: 'https://www.youtube.com/embed/8Lh-mdL2ggY',
-        search: 'caminadora inclinada cardio beneficios'
+        "name": "Abducción de cadera acostado de lado",
+        "sets": "3 x 15 por lado",
+        "muscle": "Glúteo medio",
+        "rest": "45s",
+        "note": "Pierna un poco hacia atrás y punta del pie apenas hacia abajo",
+        "video": null,
+        "search": "abducción de cadera acostado de lado glúteo medio"
       }
     ]
   },
-  'sabado': {
-    name: 'Pecho-Espalda',
-    subtitle: 'Tren superior combinado',
-    color: 'chest-back',
-    day: 'SÁB',
-    items: [
+  "viernes": {
+    "name": "Circuito",
+    "subtitle": "Full body en circuito · 40 s trabajo / 20 s descanso",
+    "color": "chest-back",
+    "day": "VIE",
+    "items": [
       {
-        name: 'Press inclinado con mancuernas',
-        sets: '2 x fallo',
-        muscle: 'Pecho superior',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/8iPEnn-ltC8',
-        search: 'press inclinado mancuernas técnica'
+        "name": "Goblet squat a cajón",
+        "sets": "4 vueltas x 40 s",
+        "muscle": "Pierna",
+        "rest": "20s",
+        "note": "Circuito: los 7 ejercicios seguidos, 2 min entre vueltas. Empieza con 3 vueltas. Rodillas alineadas con los pies",
+        "video": null,
+        "search": "goblet squat a cajón técnica"
       },
       {
-        name: 'Press plano en máquina',
-        sets: '1 x fallo',
-        muscle: 'Pecho medio',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/xUm0BiZCWlQ',
-        search: 'press plano máquina técnica'
+        "name": "Remo con mancuerna a una mano",
+        "sets": "4 vueltas x 40 s",
+        "muscle": "Espalda",
+        "rest": "20s",
+        "video": null,
+        "search": "remo con mancuerna a una mano técnica"
       },
       {
-        name: 'Pec Fly (Peck Deck)',
-        sets: '2 x fallo',
-        muscle: 'Pecho',
-        rest: '60s',
-        video: 'https://www.youtube.com/embed/Z57CtFmRMxA',
-        search: 'pec deck fly máquina técnica'
+        "name": "Puente de glúteo a una pierna",
+        "sets": "4 vueltas x 40 s",
+        "muscle": "Glúteo",
+        "rest": "20s",
+        "note": "Alterna pierna en cada vuelta",
+        "video": null,
+        "search": "puente de glúteo a una pierna"
       },
       {
-        name: 'Remo en máquina',
-        sets: '2 x fallo',
-        muscle: 'Espalda media',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/GZbfZ033f74',
-        search: 'remo máquina técnica espalda'
+        "name": "Flexiones (inclinadas si hace falta)",
+        "sets": "4 vueltas x 40 s",
+        "muscle": "Pecho · Tríceps",
+        "rest": "20s",
+        "video": null,
+        "search": "flexiones inclinadas técnica"
       },
       {
-        name: 'Remo con pecho apoyado en banco (mancuernas)',
-        sets: '2 x fallo',
-        muscle: 'Espalda alta',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/Fy1wIWwlwjo',
-        search: 'remo pecho apoyado banco mancuernas'
+        "name": "Step-up a cajón bajo",
+        "sets": "4 vueltas x 40 s",
+        "muscle": "Pierna",
+        "rest": "20s",
+        "note": "Que la rodilla no se vaya hacia adentro al subir; si pasa, usa un cajón más bajo",
+        "video": null,
+        "search": "step up cajón técnica rodilla"
       },
       {
-        name: 'Jalón al pecho',
-        sets: '2 x fallo',
-        muscle: 'Dorsales',
-        rest: '90s',
-        video: 'https://www.youtube.com/embed/lueEJGjTuPQ',
-        search: 'jalón al pecho técnica dorsales'
+        "name": "Farmer walk",
+        "sets": "4 vueltas x 40 s",
+        "muscle": "Agarre · Core",
+        "rest": "20s",
+        "note": "Caminar con mancuernas pesadas, espalda recta",
+        "video": null,
+        "search": "farmer walk técnica"
       },
       {
-        name: 'Crunch abdominal en máquina',
-        sets: '2 x fallo',
-        muscle: 'Abdomen',
-        rest: '45s',
-        video: 'https://www.youtube.com/embed/r3arb3k-qCc',
-        search: 'abdominal crunch machine técnica'
+        "name": "Caminata lateral con banda",
+        "sets": "4 vueltas x 40 s",
+        "muscle": "Glúteo medio",
+        "rest": "20s",
+        "note": "Banda arriba de las rodillas o en los tobillos. Pasos cortos, rodillas abiertas",
+        "video": null,
+        "search": "monster walk banda glúteo medio"
+      },
+      {
+        "name": "Bici estática para cerrar",
+        "sets": "10 min suave",
+        "muscle": "Cardio",
+        "rest": "-",
+        "video": null,
+        "search": "bicicleta estática zona 2"
+      }
+    ]
+  },
+  "sabado": {
+    "name": "Cardio",
+    "subtitle": "Opcional · Zona 2 y movilidad",
+    "color": "cardio",
+    "day": "SÁB",
+    "items": [
+      {
+        "name": "Bici, elíptica o caminata inclinada",
+        "sets": "35-45 min",
+        "muscle": "Cardio zona 2",
+        "rest": "-",
+        "note": "Puedes hablar en frases cortas. Es lo que más ayuda a la presión y a quemar grasa sin cargar la rodilla",
+        "video": "https://www.youtube.com/embed/8Lh-mdL2ggY",
+        "search": "cardio zona 2"
+      },
+      {
+        "name": "Movilidad de rodilla y cadera",
+        "sets": "10 min",
+        "muscle": "Movilidad",
+        "rest": "-",
+        "note": "Los ejercicios que te dejó el fisio",
+        "video": null,
+        "search": "movilidad rodilla cadera"
       }
     ]
   }
 };
 
-const restDays = ['martes', 'jueves', 'domingo'];
+const trainingDays = Object.keys(exercises);
+const restDays = ['jueves', 'domingo'];
 
 // ==================== STATE ====================
 let currentDay = getCurrentDay();
@@ -933,8 +989,7 @@ function getCurrentDay() {
   const today = days[new Date().getDay()];
   if (exercises[today]) return today;
   // If rest day, go to next training day
-  const order = ['lunes', 'miercoles', 'viernes', 'sabado'];
-  return order[0];
+  return trainingDays[0];
 }
 
 // ==================== STORAGE ====================
@@ -977,9 +1032,8 @@ function renderApp() {
 
 function renderTabs() {
   const tabsEl = document.getElementById('tabs');
-  const order = ['lunes', 'miercoles', 'viernes', 'sabado'];
   let html = '';
-  order.forEach(day => {
+  trainingDays.forEach(day => {
     const d = exercises[day];
     const active = day === currentDay ? `active ${d.color}` : '';
     html += `
@@ -1008,7 +1062,7 @@ function renderStats() {
 
   statsEl.innerHTML = `
     <div class="stat-chip"><span class="dot"></span>Hoy: ${doneToday}/${totalToday}</div>
-    <div class="stat-chip">📅 4 días/sem</div>
+    <div class="stat-chip">📅 ${trainingDays.length} días/sem</div>
     <div class="stat-chip">💪 ${totalExercises} ejercicios</div>
     <div class="stat-chip">📊 ${logEntries} días registrados</div>
   `;
@@ -1050,7 +1104,12 @@ function renderDay(day) {
 
     <div class="knee-warning">
       <span class="icon">⚠️</span>
-      <span><strong>Cuidado con la rodilla.</strong> ACL roto confirmado. Prioriza movimientos lineales, evita rotaciones y saltos. Si duele, para.</span>
+      <span><strong>Rodilla operada (LCA + menisco).</strong> Dolor hasta 3 de 10 está bien; si pasa de 3 o al otro día está hinchada, baja la carga. Nada de saltos, giros ni trote hasta que el fisio lo apruebe. <strong>Valgo:</strong> rodillas siempre alineadas con la punta de los pies, nunca hacia adentro.</span>
+    </div>
+
+    <div class="warmup-banner">
+      <span class="icon">🩺</span>
+      <span><strong>Presión:</strong> mídetela antes de entrenar; si sale alta, hoy solo cardio suave. Nunca aguantes la respiración: bota el aire en el esfuerzo. Termina cada serie con 2–3 repeticiones en reserva, no al fallo.</span>
     </div>
   `;
 
@@ -1070,8 +1129,9 @@ function renderDay(day) {
             </div>
           </div>
         </div>
+        ${ex.note ? `<div class="exercise-note">${ex.note}</div>` : ''}
         <div class="exercise-actions">
-          <button class="action-btn video" onclick="openVideo('${day}', ${i})">▶️ Video</button>
+          <button class="action-btn video" onclick="openVideo('${day}', ${i})">${ex.video ? '▶️ Video' : '🔍 Buscar video'}</button>
           <button class="action-btn timer" onclick="openTimer('${ex.rest}')">⏱️ Timer</button>
           <button class="action-btn weight" onclick="openWeight('${day}', ${i})">🏋️ Peso</button>
         </div>
@@ -1264,6 +1324,12 @@ function openVideo(day, index) {
   const ex = exercises[day].items[index];
   const searchQuery = ex.search || ex.name;
   const shortsUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery + ' shorts técnica')}&sp=EgIYAQ%253D%253D`;
+
+  if (!ex.video) {
+    // Sin video guardado: abre la búsqueda en YouTube
+    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`, '_blank');
+    return;
+  }
 
   document.getElementById('videoTitle').textContent = ex.name;
   document.getElementById('videoFrame').src = ex.video + '?rel=0';
