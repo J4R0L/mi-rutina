@@ -588,7 +588,7 @@
 
 <div class="header">
   <h1>💪 Mi Rutina</h1>
-  <p>Pérdida de grasa · Pierna · Superior · Intervalos · Circuito · Cardio</p>
+  <p>Pérdida de grasa · Pierna · Superior · Intervalos · Full body · Cardio</p>
 </div>
 
 <div class="stats-row" id="statsRow"></div>
@@ -670,27 +670,27 @@ const exercises = {
         "sets": "3 x 12-15",
         "muscle": "Cuádriceps · Glúteo",
         "rest": "75s",
-        "note": "Banda arriba de las rodillas, empujando hacia afuera. Hasta el ángulo que autorizó el fisio; no bloquees la rodilla arriba",
+        "note": "Rodillas alineadas con la punta de los pies, sin que se vayan hacia adentro. Hasta el ángulo que autorizó el fisio; no bloquees la rodilla arriba",
         "video": null,
         "search": "prensa de piernas técnica rodilla"
       },
       {
-        "name": "Sentadilla a cajón",
+        "name": "Sentadilla en máquina Smith o hack (rango corto)",
         "sets": "3 x 10-12",
         "muscle": "Cuádriceps · Glúteo",
         "rest": "75s",
-        "note": "Rodillas apuntando a la punta de los pies, nunca hacia adentro. Banda arriba de las rodillas. Bota el aire al subir",
+        "note": "Pies un poco adelante. Rodillas alineadas con los pies, nunca hacia adentro. Hasta la profundidad que autorizó el fisio. Bota el aire al subir",
         "video": null,
-        "search": "box squat sentadilla a cajón técnica"
+        "search": "sentadilla hack máquina técnica"
       },
       {
-        "name": "Puente de glúteo / hip thrust",
-        "sets": "3 x 12-15",
+        "name": "Patada de glúteo en polea o máquina",
+        "sets": "3 x 12-15 por pierna",
         "muscle": "Glúteo",
         "rest": "60s",
-        "note": "Banda arriba de las rodillas, abriéndolas. Pausa de 1 s arriba",
+        "note": "Sin arquear la espalda baja",
         "video": null,
-        "search": "hip thrust técnica"
+        "search": "patada de glúteo en polea técnica"
       },
       {
         "name": "Curl femoral en máquina",
@@ -706,44 +706,36 @@ const exercises = {
         "sets": "4 x 15",
         "muscle": "Glúteo medio",
         "rest": "45s",
-        "note": "Prioridad por el valgo. Sube y baja lento",
+        "note": "Prioridad por el valgo. 2 series sentado derecho y 2 con el torso inclinado hacia adelante. Sube y baja lento",
         "video": null,
-        "search": "abducción de cadera máquina técnica"
+        "search": "abducción de cadera máquina inclinado hacia adelante"
       },
       {
-        "name": "Caminata lateral con banda (monster walk)",
-        "sets": "3 x 12 pasos por lado",
+        "name": "Abducción de cadera en polea, de pie",
+        "sets": "3 x 12-15 por lado",
         "muscle": "Glúteo medio",
         "rest": "45s",
-        "note": "Semiflexionado, empujando las rodillas hacia afuera contra la banda",
+        "note": "Tobillera en la polea baja, abre la pierna hacia el lado sin inclinar el tronco",
         "video": null,
-        "search": "monster walk banda glúteo medio"
+        "search": "abducción de cadera en polea de pie"
       },
       {
-        "name": "Clamshell con banda",
-        "sets": "3 x 15 por lado",
-        "muscle": "Glúteo medio",
-        "rest": "45s",
-        "note": "Acostado de lado, abre la rodilla de arriba sin rotar la cadera hacia atrás",
-        "video": null,
-        "search": "clamshell banda técnica"
-      },
-      {
-        "name": "Pantorrilla de pie",
+        "name": "Pantorrilla sentado en máquina",
         "sets": "3 x 15",
         "muscle": "Pantorrilla",
         "rest": "45s",
+        "note": "Pausa de 1 s arriba",
         "video": null,
-        "search": "elevación de talones de pie técnica"
+        "search": "elevación de talones sentado máquina"
       },
       {
-        "name": "Plancha frontal",
-        "sets": "3 x 30-40 s",
-        "muscle": "Core",
+        "name": "Crunch abdominal en máquina",
+        "sets": "3 x 12-15",
+        "muscle": "Abdomen",
         "rest": "45s",
-        "note": "Respira normal, no aguantes el aire",
-        "video": null,
-        "search": "plancha abdominal técnica"
+        "note": "Bota el aire al cerrar",
+        "video": "https://www.youtube.com/embed/r3arb3k-qCc",
+        "search": "abdominal crunch machine técnica"
       }
     ]
   },
@@ -762,7 +754,7 @@ const exercises = {
         "search": "remo máquina técnica espalda"
       },
       {
-        "name": "Press de pecho (máquina o mancuernas)",
+        "name": "Press de pecho en máquina",
         "sets": "3 x 10-12",
         "muscle": "Pecho",
         "rest": "75s",
@@ -779,7 +771,7 @@ const exercises = {
         "search": "jalón al pecho técnica dorsales"
       },
       {
-        "name": "Press de hombro sentado",
+        "name": "Press de hombro en máquina",
         "sets": "3 x 10-12",
         "muscle": "Hombro",
         "rest": "75s",
@@ -788,7 +780,7 @@ const exercises = {
         "search": "press militar máquina técnica"
       },
       {
-        "name": "Face pull",
+        "name": "Face pull en polea",
         "sets": "3 x 15",
         "muscle": "Deltoides posterior",
         "rest": "45s",
@@ -796,7 +788,7 @@ const exercises = {
         "search": "face pull polea técnica"
       },
       {
-        "name": "Bíceps + tríceps (superserie)",
+        "name": "Bíceps + tríceps en polea (superserie)",
         "sets": "2 x 12-15",
         "muscle": "Bíceps · Tríceps",
         "rest": "60s",
@@ -805,7 +797,7 @@ const exercises = {
         "search": "superserie biceps triceps polea"
       },
       {
-        "name": "Pallof press",
+        "name": "Pallof press en polea",
         "sets": "3 x 10 por lado",
         "muscle": "Core antirrotación",
         "rest": "45s",
@@ -840,98 +832,91 @@ const exercises = {
         "search": "caminadora inclinada cardio"
       },
       {
-        "name": "Dead bug",
-        "sets": "3 x 10 por lado",
-        "muscle": "Core",
+        "name": "Crunch en polea arrodillado",
+        "sets": "3 x 12-15",
+        "muscle": "Abdomen",
         "rest": "45s",
+        "note": "Bota el aire al bajar",
         "video": null,
-        "search": "dead bug ejercicio técnica"
+        "search": "crunch en polea arrodillado técnica"
       },
       {
-        "name": "Plancha lateral",
-        "sets": "3 x 25 s por lado",
-        "muscle": "Core · Oblicuos",
+        "name": "Elevación de rodillas en silla romana",
+        "sets": "3 x 10-12",
+        "muscle": "Abdomen",
         "rest": "45s",
+        "note": "Sube las rodillas sin balancearte",
         "video": null,
-        "search": "plancha lateral técnica"
+        "search": "elevación de rodillas silla romana técnica"
       },
       {
-        "name": "Abducción de cadera acostado de lado",
-        "sets": "3 x 15 por lado",
+        "name": "Abducción de cadera en polea, de pie",
+        "sets": "3 x 12-15 por lado",
         "muscle": "Glúteo medio",
         "rest": "45s",
-        "note": "Pierna un poco hacia atrás y punta del pie apenas hacia abajo",
+        "note": "Por el valgo",
         "video": null,
-        "search": "abducción de cadera acostado de lado glúteo medio"
+        "search": "abducción de cadera en polea de pie"
       }
     ]
   },
   "viernes": {
-    "name": "Circuito",
-    "subtitle": "Full body en circuito · 40 s trabajo / 20 s descanso",
+    "name": "Full body",
+    "subtitle": "Cuerpo completo en máquinas · descansos cortos",
     "color": "chest-back",
     "day": "VIE",
     "items": [
       {
-        "name": "Goblet squat a cajón",
-        "sets": "4 vueltas x 40 s",
+        "name": "Prensa de piernas",
+        "sets": "3 x 12-15",
         "muscle": "Pierna",
-        "rest": "20s",
-        "note": "Circuito: los 7 ejercicios seguidos, 2 min entre vueltas. Empieza con 3 vueltas. Rodillas alineadas con los pies",
+        "rest": "60s",
+        "note": "Día de ritmo: descansos cortos para mantener el pulso arriba. Rodillas alineadas con los pies",
         "video": null,
-        "search": "goblet squat a cajón técnica"
+        "search": "prensa de piernas técnica rodilla"
       },
       {
-        "name": "Remo con mancuerna a una mano",
-        "sets": "4 vueltas x 40 s",
+        "name": "Remo en máquina",
+        "sets": "3 x 12",
         "muscle": "Espalda",
-        "rest": "20s",
-        "video": null,
-        "search": "remo con mancuerna a una mano técnica"
+        "rest": "60s",
+        "video": "https://www.youtube.com/embed/GZbfZ033f74",
+        "search": "remo máquina técnica espalda"
       },
       {
-        "name": "Puente de glúteo a una pierna",
-        "sets": "4 vueltas x 40 s",
-        "muscle": "Glúteo",
-        "rest": "20s",
-        "note": "Alterna pierna en cada vuelta",
-        "video": null,
-        "search": "puente de glúteo a una pierna"
+        "name": "Press de pecho en máquina",
+        "sets": "3 x 12",
+        "muscle": "Pecho",
+        "rest": "60s",
+        "video": "https://www.youtube.com/embed/xUm0BiZCWlQ",
+        "search": "press plano máquina técnica"
       },
       {
-        "name": "Flexiones (inclinadas si hace falta)",
-        "sets": "4 vueltas x 40 s",
-        "muscle": "Pecho · Tríceps",
-        "rest": "20s",
+        "name": "Hiperextensiones en banco romano",
+        "sets": "3 x 12",
+        "muscle": "Espalda baja · Glúteo",
+        "rest": "60s",
+        "note": "Sube hasta quedar recto, sin pasarte hacia atrás",
         "video": null,
-        "search": "flexiones inclinadas técnica"
+        "search": "hiperextensiones banco romano técnica"
       },
       {
-        "name": "Step-up a cajón bajo",
-        "sets": "4 vueltas x 40 s",
-        "muscle": "Pierna",
-        "rest": "20s",
-        "note": "Que la rodilla no se vaya hacia adentro al subir; si pasa, usa un cajón más bajo",
+        "name": "Abducción de cadera en máquina",
+        "sets": "3 x 15",
+        "muscle": "Glúteo medio",
+        "rest": "45s",
+        "note": "Por el valgo",
         "video": null,
-        "search": "step up cajón técnica rodilla"
+        "search": "abducción de cadera máquina técnica"
       },
       {
-        "name": "Farmer walk",
-        "sets": "4 vueltas x 40 s",
+        "name": "Farmer walk con mancuernas",
+        "sets": "3 x 30-40 m",
         "muscle": "Agarre · Core",
-        "rest": "20s",
-        "note": "Caminar con mancuernas pesadas, espalda recta",
+        "rest": "60s",
+        "note": "Mancuernas pesadas, espalda recta, pasos normales",
         "video": null,
         "search": "farmer walk técnica"
-      },
-      {
-        "name": "Caminata lateral con banda",
-        "sets": "4 vueltas x 40 s",
-        "muscle": "Glúteo medio",
-        "rest": "20s",
-        "note": "Banda arriba de las rodillas o en los tobillos. Pasos cortos, rodillas abiertas",
-        "video": null,
-        "search": "monster walk banda glúteo medio"
       },
       {
         "name": "Bici estática para cerrar",
