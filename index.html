@@ -588,7 +588,7 @@
 
 <div class="header">
   <h1>💪 Mi Rutina</h1>
-  <p>Pérdida de grasa · Pierna · Superior · Intervalos · Full body · Cardio</p>
+  <p>Pérdida de grasa · Lun Pierna · Mar Superior · Jue Full body · Vie Pierna B</p>
 </div>
 
 <div class="stats-row" id="statsRow"></div>
@@ -741,7 +741,7 @@ const exercises = {
   },
   "martes": {
     "name": "Superior",
-    "subtitle": "Espalda · Pecho · Hombro · Brazos",
+    "subtitle": "Espalda · Pecho · Hombro · Brazos · Intervalos",
     "color": "pull",
     "day": "MAR",
     "items": [
@@ -792,7 +792,7 @@ const exercises = {
         "sets": "2 x 12-15",
         "muscle": "Bíceps · Tríceps",
         "rest": "60s",
-        "note": "Uno tras otro, descansas al terminar los dos",
+        "note": "Curl de bíceps y enseguida extensión de tríceps, sin descanso entre los dos. Descansas al terminar ambos",
         "video": "https://www.youtube.com/embed/NFzTWp2qpiE",
         "search": "superserie biceps triceps polea"
       },
@@ -804,67 +804,23 @@ const exercises = {
         "note": "Sirve para el fútbol",
         "video": null,
         "search": "pallof press técnica"
-      }
-    ]
-  },
-  "miercoles": {
-    "name": "Intervalos",
-    "subtitle": "Cardio por intervalos · Core",
-    "color": "arms",
-    "day": "MIÉ",
-    "items": [
+      },
       {
-        "name": "Bici estática por intervalos",
-        "sets": "5 min suave + 8 x (1 min fuerte / 2 min suave) + 5 min suave",
+        "name": "Bici estática por intervalos (al final)",
+        "sets": "5 min suave + 6 x (1 min fuerte / 2 min suave)",
         "muscle": "Cardio",
         "rest": "-",
         "note": "\"Fuerte\" es 7 de 10, no al máximo, por la presión",
         "video": null,
         "search": "intervalos bicicleta estática"
-      },
-      {
-        "name": "Elíptica o caminadora inclinada",
-        "sets": "15 min",
-        "muscle": "Cardio",
-        "rest": "-",
-        "note": "Ritmo en que puedes hablar en frases cortas",
-        "video": "https://www.youtube.com/embed/8Lh-mdL2ggY",
-        "search": "caminadora inclinada cardio"
-      },
-      {
-        "name": "Crunch en polea arrodillado",
-        "sets": "3 x 12-15",
-        "muscle": "Abdomen",
-        "rest": "45s",
-        "note": "Bota el aire al bajar",
-        "video": null,
-        "search": "crunch en polea arrodillado técnica"
-      },
-      {
-        "name": "Elevación de rodillas en silla romana",
-        "sets": "3 x 10-12",
-        "muscle": "Abdomen",
-        "rest": "45s",
-        "note": "Sube las rodillas sin balancearte",
-        "video": null,
-        "search": "elevación de rodillas silla romana técnica"
-      },
-      {
-        "name": "Abducción de cadera en polea, de pie",
-        "sets": "3 x 12-15 por lado",
-        "muscle": "Glúteo medio",
-        "rest": "45s",
-        "note": "Por el valgo",
-        "video": null,
-        "search": "abducción de cadera en polea de pie"
       }
     ]
   },
-  "viernes": {
+  "jueves": {
     "name": "Full body",
     "subtitle": "Cuerpo completo en máquinas · descansos cortos",
     "color": "chest-back",
-    "day": "VIE",
+    "day": "JUE",
     "items": [
       {
         "name": "Prensa de piernas",
@@ -919,12 +875,75 @@ const exercises = {
         "search": "farmer walk técnica"
       },
       {
-        "name": "Bici estática para cerrar",
-        "sets": "10 min suave",
+        "name": "Elíptica o caminadora inclinada",
+        "sets": "15 min",
         "muscle": "Cardio",
         "rest": "-",
+        "note": "Ritmo en que puedes hablar en frases cortas",
+        "video": "https://www.youtube.com/embed/8Lh-mdL2ggY",
+        "search": "caminadora inclinada cardio"
+      }
+    ]
+  },
+  "viernes": {
+    "name": "Pierna B",
+    "subtitle": "Pierna · Core · Intervalos",
+    "color": "arms",
+    "day": "VIE",
+    "items": [
+      {
+        "name": "Sentadilla en máquina Smith o hack (rango corto)",
+        "sets": "3 x 10-12",
+        "muscle": "Cuádriceps · Glúteo",
+        "rest": "75s",
+        "note": "Rodillas alineadas con los pies. Hasta la profundidad que autorizó el fisio",
         "video": null,
-        "search": "bicicleta estática zona 2"
+        "search": "sentadilla hack máquina técnica"
+      },
+      {
+        "name": "Prensa a una pierna (liviana)",
+        "sets": "3 x 10-12 por pierna",
+        "muscle": "Cuádriceps · Glúteo",
+        "rest": "60s",
+        "note": "Empieza con la pierna operada y haz las mismas repeticiones con la otra. Sirve para emparejar fuerza. Confírmalo con el fisio",
+        "video": null,
+        "search": "prensa a una pierna técnica"
+      },
+      {
+        "name": "Abducción de cadera en polea, de pie",
+        "sets": "3 x 12-15 por lado",
+        "muscle": "Glúteo medio",
+        "rest": "45s",
+        "note": "Por el valgo",
+        "video": null,
+        "search": "abducción de cadera en polea de pie"
+      },
+      {
+        "name": "Crunch en polea arrodillado",
+        "sets": "3 x 12-15",
+        "muscle": "Abdomen",
+        "rest": "45s",
+        "note": "Bota el aire al bajar",
+        "video": null,
+        "search": "crunch en polea arrodillado técnica"
+      },
+      {
+        "name": "Elevación de rodillas en silla romana",
+        "sets": "3 x 10-12",
+        "muscle": "Abdomen",
+        "rest": "45s",
+        "note": "Sube las rodillas sin balancearte",
+        "video": null,
+        "search": "elevación de rodillas silla romana técnica"
+      },
+      {
+        "name": "Bici estática por intervalos",
+        "sets": "5 min suave + 8 x (1 min fuerte / 2 min suave) + 5 min suave",
+        "muscle": "Cardio",
+        "rest": "-",
+        "note": "\"Fuerte\" es 7 de 10, no al máximo, por la presión",
+        "video": null,
+        "search": "intervalos bicicleta estática"
       }
     ]
   },
@@ -939,7 +958,7 @@ const exercises = {
         "sets": "35-45 min",
         "muscle": "Cardio zona 2",
         "rest": "-",
-        "note": "Puedes hablar en frases cortas. Es lo que más ayuda a la presión y a quemar grasa sin cargar la rodilla",
+        "note": "Zona 2: puedes hablar en frases cortas. Solo si te sientes bien; si no, descansa",
         "video": "https://www.youtube.com/embed/8Lh-mdL2ggY",
         "search": "cardio zona 2"
       },
@@ -957,7 +976,7 @@ const exercises = {
 };
 
 const trainingDays = Object.keys(exercises);
-const restDays = ['jueves', 'domingo'];
+const restDays = ['miercoles', 'domingo'];
 
 // ==================== STATE ====================
 let currentDay = getCurrentDay();
